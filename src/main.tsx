@@ -3,13 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './i18n'
 import './index.css'
 import App from './App.tsx'
-
-async function prepare(): Promise<void> {
-  if (import.meta.env.DEV) {
-    const { startBrowserWorker } = await import('./mocks/browser')
-    await startBrowserWorker()
-  }
-}
+import { prepareApp } from './prepareApp'
 
 function renderApp(): void {
   createRoot(document.getElementById('root')!).render(
@@ -19,7 +13,7 @@ function renderApp(): void {
   )
 }
 
-void prepare()
+void prepareApp()
   .catch((error: unknown) => {
     console.error('Failed to prepare application bootstrap', error)
   })

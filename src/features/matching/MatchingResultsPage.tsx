@@ -46,9 +46,7 @@ export function MatchingResultsPage() {
         {t('matching:results.announcement', { count: matches.length })}
       </div>
 
-      {matches.length === 0 ? (
-        <p>{t('matching:results.announcement', { count: 0 })}</p>
-      ) : (
+      {matches.length > 0 ? (
         <ol className="matching-results__list">
           {matches.map((result, index) => (
             <li key={result.professional.id}>
@@ -56,7 +54,7 @@ export function MatchingResultsPage() {
             </li>
           ))}
         </ol>
-      )}
+      ) : null}
 
       <div className="page-actions">
         <Link className="btn btn--secondary" to="/intake">

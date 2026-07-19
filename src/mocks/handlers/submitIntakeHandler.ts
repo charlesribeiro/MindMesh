@@ -21,7 +21,7 @@ import { z } from 'zod'
 const submitIntakeInputSchema = z.object({
   modality: modalitySchema,
   preferredPeriods: z.array(preferredPeriodSchema).min(1),
-  maxSessionPrice: z.number().positive(),
+  maxSessionPrice: z.number().positive().max(2000),
   supportTopic: supportTopicSchema,
   description: z.string().nullable(),
   genderPreference: genderPreferenceSchema,

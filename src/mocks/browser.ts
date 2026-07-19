@@ -3,8 +3,10 @@ import { handlers } from './handlers'
 
 export const worker = setupWorker(...handlers)
 
-export async function startBrowserWorker(): Promise<void> {
-  if (!import.meta.env.DEV) {
+export async function startBrowserWorker(
+  shouldStart: boolean = import.meta.env.DEV,
+): Promise<void> {
+  if (!shouldStart) {
     return
   }
 

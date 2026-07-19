@@ -90,10 +90,10 @@ export function IntakeForm() {
     }
 
     setSubmission({ status: 'submitting' })
+    lastAnnouncedErrorRef.current = null
 
     try {
       const result = await submitIntake(values)
-      lastAnnouncedErrorRef.current = null
       setSubmission({
         status: 'success',
         intakeId: result.intakeId,

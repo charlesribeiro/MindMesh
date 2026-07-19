@@ -6,17 +6,15 @@ export type SubmitIntakeApiErrorKind =
 
 export class SubmitIntakeApiError extends Error {
   readonly kind: SubmitIntakeApiErrorKind
-  readonly causeDetail?: unknown
 
   constructor(
     kind: SubmitIntakeApiErrorKind,
     message: string,
     causeDetail?: unknown,
   ) {
-    super(message)
+    super(message, causeDetail === undefined ? undefined : { cause: causeDetail })
     this.name = 'SubmitIntakeApiError'
     this.kind = kind
-    this.causeDetail = causeDetail
   }
 }
 
@@ -27,7 +25,7 @@ export function logSubmitIntakeTechnicalError(
     return
   }
 
-  console.error('[submitIntake]', error.kind, error.message, error.causeDetail)
+  console.error('[submitIntake]', error.kind, error.message, error.cause)
 }
 
 /** Maps API error kinds to intake i18n keys (no technical jargon in UI). */

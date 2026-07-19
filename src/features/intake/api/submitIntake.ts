@@ -47,6 +47,15 @@ function toApiError(error: unknown): SubmitIntakeApiError {
   }
 
   if (
+    error instanceof Error &&
+    (error.name === 'TimeoutError' ||
+      error.name === 'AbortError' ||
+      /timed?\s*out|aborted/i.test(error.message))
+  ) {
+    return new SubmitIntakeApiError('network', 'Request timed out', error)
+  }
+
+  if (
     typeof error === 'object' &&
     error !== null &&
     'message' in error &&
