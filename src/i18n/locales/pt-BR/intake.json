@@ -1,92 +1,107 @@
 {
-  "progressLabel": "Progresso da triagem",
   "steps": {
-    "preferences": "Preferências",
-    "supportNeeds": "Necessidades de apoio",
+    "preferences": "Preferências de atendimento",
+    "supportNeeds": "Preferências de apoio",
     "review": "Revisão"
   },
-  "preferences": {
-    "title": "Preferências",
-    "lede": "Conte como e quando você prefere se encontrar. Estas são preferências administrativas para a correspondência, não recomendações clínicas.",
-    "sessionFormat": "Formato da sessão",
+  "progress": {
+    "label": "Progresso da triagem",
+    "stepOf": "Etapa {{current}} de {{total}}"
+  },
+  "page": {
+    "title": "Triagem administrativa",
+    "lede": "Informe preferências de atendimento e de apoio para que a coordenação possa sugerir profissionais. Este é um processo administrativo — o MindMesh não faz diagnósticos e os resultados da correspondência não são recomendações clínicas.",
+    "demoNote": "Apenas demonstração — use informações fictícias. Nada é enviado a um backend real ou a um provedor de IA."
+  },
+  "fields": {
+    "modality": "Modalidade de atendimento preferida",
     "preferredPeriods": "Períodos preferidos",
-    "periodsHint": "Selecione todos os que funcionam para você.",
-    "maxPrice": "Valor máximo aproximado da sessão (USD)",
-    "maxPriceHint": "Uma estimativa é suficiente. Isso ajuda apenas na correspondência administrativa."
+    "preferredPeriodsHint": "Selecione todos os que funcionam para você.",
+    "maximumPrice": "Valor máximo aproximado por sessão (USD)",
+    "maximumPriceHint": "Uma estimativa é suficiente. Isso ajuda apenas na correspondência administrativa.",
+    "supportTopic": "Tema geral de apoio",
+    "supportTopicPlaceholder": "Selecione um tema",
+    "description": "Detalhes adicionais (opcional)",
+    "descriptionHint": "Texto livre opcional para correspondência administrativa. Evite compartilhar informações que você não gostaria de ver armazenadas em uma demonstração.",
+    "genderPreference": "Preferência de gênero do profissional (opcional)",
+    "preferredLanguage": "Idioma preferido"
+  },
+  "options": {
+    "modality": {
+      "online": "Online",
+      "inPerson": "Presencial",
+      "noPreference": "Sem preferência"
+    },
+    "period": {
+      "morning": "Manhã",
+      "afternoon": "Tarde",
+      "evening": "Noite"
+    },
+    "supportTopic": {
+      "anxiety": "Ansiedade e estresse",
+      "relationships": "Relacionamentos",
+      "work": "Trabalho ou estudos",
+      "grief": "Luto e perdas",
+      "selfKnowledge": "Autoconhecimento",
+      "other": "Outro"
+    },
+    "gender": {
+      "noPreference": "Sem preferência",
+      "female": "Feminino",
+      "male": "Masculino",
+      "nonBinary": "Não binário"
+    },
+    "language": {
+      "noPreference": "Sem preferência",
+      "en": "Inglês",
+      "ptBR": "Português (Brasil)",
+      "es": "Espanhol"
+    }
+  },
+  "preferences": {
+    "lede": "Conte como e quando você prefere se encontrar. Estas são preferências administrativas para a correspondência, não recomendações clínicas."
   },
   "supportNeeds": {
-    "title": "Necessidades de apoio",
-    "lede": "Informe um motivo geral e uma breve descrição. O MindMesh não faz diagnósticos e não substitui o cuidado profissional.",
-    "reason": "Motivo geral para buscar apoio",
-    "selectReason": "Selecione um motivo",
-    "description": "Descreva o que você está buscando",
-    "descriptionHint": "Texto livre para correspondência administrativa. Evite compartilhar informações que você não gostaria de ver armazenadas em uma demonstração.",
-    "genderPreference": "Preferência de gênero do profissional (opcional)"
+    "lede": "Informe um tema geral de apoio e quaisquer detalhes opcionais. O MindMesh não faz diagnósticos e não substitui o cuidado profissional."
   },
   "review": {
-    "title": "Revisão",
-    "lede": "Confirme suas informações antes de enviar. Você pode voltar a qualquer etapa para fazer alterações.",
-    "editPreferences": "Editar preferências",
-    "editSupportNeeds": "Editar necessidades de apoio",
-    "sessionFormat": "Formato da sessão",
-    "preferredPeriods": "Períodos preferidos",
-    "maxPrice": "Valor máximo aproximado da sessão",
-    "generalReason": "Motivo geral",
-    "description": "Descrição",
-    "genderPreference": "Preferência de gênero do profissional",
+    "title": "Revise sua triagem",
+    "lede": "Confirme suas informações antes de enviar. Você pode voltar a qualquer etapa anterior para fazer alterações.",
+    "editPreferences": "Editar preferências de atendimento",
+    "editSupportNeeds": "Editar preferências de apoio",
     "noneSelected": "Nenhum selecionado",
     "notProvided": "Não informado",
+    "privacyTitle": "Aviso de privacidade",
+    "privacyBody": "Esta é uma demonstração fictícia do MindMesh. As informações que você inserir permanecem nesta sessão do navegador apenas para demonstração e não são enviadas a um backend, clínica ou provedor de IA reais. Não insira dados reais de identificação de pacientes ou informações clínicas.",
     "consentLegend": "Consentimento",
-    "consentLabel": "Entendo que esta é uma demonstração fictícia de triagem administrativa e correspondência. Os resultados da correspondência são sugestões, não recomendações clínicas. Consinto em enviar estas informações para a demonstração.",
-    "consentHint": "Obrigatório antes do envio."
-  },
-  "modality": {
-    "online": "Online",
-    "inPerson": "Presencial",
-    "noPreference": "Sem preferência"
-  },
-  "period": {
-    "morning": "Manhã",
-    "afternoon": "Tarde",
-    "evening": "Noite"
-  },
-  "reason": {
-    "stressAndLifeBalance": "Estresse e equilíbrio de vida",
-    "relationships": "Relacionamentos",
-    "moodAndEmotions": "Humor e emoções",
-    "workOrSchool": "Trabalho ou estudos",
-    "other": "Outro"
-  },
-  "gender": {
-    "noPreference": "Sem preferência",
-    "woman": "Mulher",
-    "man": "Homem",
-    "nonBinary": "Não binário"
+    "consentLabel": "Li o aviso de privacidade. Entendo que esta é uma demonstração fictícia de triagem administrativa e correspondência. Os resultados da correspondência são sugestões, não recomendações clínicas. Consinto em enviar estas informações para a demonstração."
   },
   "actions": {
+    "next": "Continuar",
     "back": "Voltar",
-    "continue": "Continuar",
+    "edit": "Editar",
     "submit": "Enviar triagem",
     "submitting": "Enviando…",
     "startAnother": "Iniciar outra triagem"
   },
-  "status": {
-    "submitting": "Enviando sua triagem…",
-    "successTitle": "Triagem enviada",
-    "successBody": "Sua triagem administrativa foi recebida nesta demonstração (referência <code>{{id}}</code>). Em seguida, a coordenação revisaria as sugestões de correspondência. Os resultados da correspondência são sugestões, não recomendações clínicas.",
-    "successBodyNoId": "Sua triagem administrativa foi recebida nesta demonstração. Em seguida, a coordenação revisaria as sugestões de correspondência. Os resultados da correspondência são sugestões, não recomendações clínicas.",
-    "failed": "Não foi possível enviar a triagem. Tente novamente."
-  },
   "validation": {
-    "modalityRequired": "Selecione uma preferência de formato da sessão.",
+    "modalityRequired": "Selecione uma modalidade de atendimento preferida.",
     "preferredPeriodsMin": "Selecione pelo menos um período preferido.",
-    "maxPriceRequired": "Informe um valor máximo aproximado da sessão.",
-    "maxPriceInvalid": "Informe um número válido.",
-    "maxPricePositive": "O valor deve ser maior que zero.",
-    "maxPriceMax": "Informe no máximo 2000 nesta demonstração.",
-    "reasonRequired": "Selecione um motivo geral para buscar apoio.",
-    "descriptionMin": "Escreva pelo menos 20 caracteres para entendermos melhor suas necessidades.",
+    "invalidPrice": "Informe um valor máximo válido maior que zero.",
+    "priceTooHigh": "Informe no máximo 2000 nesta demonstração.",
+    "supportTopicRequired": "Selecione um tema geral de apoio.",
     "descriptionMax": "Mantenha a descrição com no máximo 2000 caracteres.",
-    "consentRequired": "O consentimento é obrigatório antes do envio."
+    "consentRequired": "O consentimento é obrigatório antes do envio.",
+    "required": "Este campo é obrigatório."
+  },
+  "success": {
+    "title": "Triagem enviada",
+    "body": "Sua triagem administrativa foi recebida nesta demonstração (referência <code>{{id}}</code>). Em seguida, a coordenação revisaria as sugestões de correspondência. Os resultados da correspondência são sugestões, não recomendações clínicas."
+  },
+  "status": {
+    "submitting": "Enviando sua triagem…"
+  },
+  "error": {
+    "submission": "Não foi possível enviar a triagem. Tente novamente."
   }
 }

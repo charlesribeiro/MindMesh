@@ -1,92 +1,107 @@
 {
-  "progressLabel": "Intake progress",
   "steps": {
-    "preferences": "Preferences",
-    "supportNeeds": "Support needs",
+    "preferences": "Care preferences",
+    "supportNeeds": "Support preferences",
     "review": "Review"
   },
-  "preferences": {
-    "title": "Preferences",
-    "lede": "Tell us how and when you prefer to meet. These are administrative preferences for matching, not clinical recommendations.",
-    "sessionFormat": "Session format",
+  "progress": {
+    "label": "Intake progress",
+    "stepOf": "Step {{current}} of {{total}}"
+  },
+  "page": {
+    "title": "Administrative intake",
+    "lede": "Share care and support preferences so a coordinator can suggest professionals. This is an administrative process—MindMesh does not diagnose and matching results are not clinical recommendations.",
+    "demoNote": "Demo only — use fictional information. Nothing is sent to a real backend or AI provider."
+  },
+  "fields": {
+    "modality": "Preferred service modality",
     "preferredPeriods": "Preferred periods",
-    "periodsHint": "Select all that work for you.",
-    "maxPrice": "Approximate maximum session price (USD)",
-    "maxPriceHint": "An estimate is fine. This helps with administrative matching only."
+    "preferredPeriodsHint": "Select all that work for you.",
+    "maximumPrice": "Approximate maximum price per session (USD)",
+    "maximumPriceHint": "An estimate is fine. This helps with administrative matching only.",
+    "supportTopic": "General support topic",
+    "supportTopicPlaceholder": "Select a topic",
+    "description": "Additional details (optional)",
+    "descriptionHint": "Optional free text for administrative matching. Avoid sharing information you would not want stored in a demo.",
+    "genderPreference": "Professional gender preference (optional)",
+    "preferredLanguage": "Preferred language"
+  },
+  "options": {
+    "modality": {
+      "online": "Online",
+      "inPerson": "In person",
+      "noPreference": "No preference"
+    },
+    "period": {
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening"
+    },
+    "supportTopic": {
+      "anxiety": "Anxiety and stress",
+      "relationships": "Relationships",
+      "work": "Work or studies",
+      "grief": "Grief and loss",
+      "selfKnowledge": "Self-knowledge",
+      "other": "Other"
+    },
+    "gender": {
+      "noPreference": "No preference",
+      "female": "Female",
+      "male": "Male",
+      "nonBinary": "Non-binary"
+    },
+    "language": {
+      "noPreference": "No preference",
+      "en": "English",
+      "ptBR": "Portuguese (Brazil)",
+      "es": "Spanish"
+    }
+  },
+  "preferences": {
+    "lede": "Tell us how and when you prefer to meet. These are administrative preferences for matching, not clinical recommendations."
   },
   "supportNeeds": {
-    "title": "Support needs",
-    "lede": "Share a general reason and a short description. MindMesh does not diagnose and does not replace professional care.",
-    "reason": "General reason for seeking support",
-    "selectReason": "Select a reason",
-    "description": "Describe what you are looking for",
-    "descriptionHint": "Free text for administrative matching. Avoid sharing information you would not want stored in a demo.",
-    "genderPreference": "Professional gender preference (optional)"
+    "lede": "Share a general support topic and any optional details. MindMesh does not diagnose and does not replace professional care."
   },
   "review": {
-    "title": "Review",
-    "lede": "Confirm your information before submitting. You can return to any step to make changes.",
-    "editPreferences": "Edit preferences",
-    "editSupportNeeds": "Edit support needs",
-    "sessionFormat": "Session format",
-    "preferredPeriods": "Preferred periods",
-    "maxPrice": "Approximate maximum session price",
-    "generalReason": "General reason",
-    "description": "Description",
-    "genderPreference": "Professional gender preference",
+    "title": "Review your intake",
+    "lede": "Confirm your information before submitting. You can return to either previous step to make changes.",
+    "editPreferences": "Edit care preferences",
+    "editSupportNeeds": "Edit support preferences",
     "noneSelected": "None selected",
     "notProvided": "Not provided",
+    "privacyTitle": "Privacy notice",
+    "privacyBody": "This is a fictional MindMesh demo. Information you enter stays in this browser session for demonstration only and is not sent to a real backend, clinic, or AI provider. Do not enter real patient-identifying or clinical data.",
     "consentLegend": "Consent",
-    "consentLabel": "I understand this is a fictional demo for administrative intake and matching. Matching results are suggestions, not clinical recommendations. I consent to submit this information for the demo.",
-    "consentHint": "Required before submission."
-  },
-  "modality": {
-    "online": "Online",
-    "inPerson": "In person",
-    "noPreference": "No preference"
-  },
-  "period": {
-    "morning": "Morning",
-    "afternoon": "Afternoon",
-    "evening": "Evening"
-  },
-  "reason": {
-    "stressAndLifeBalance": "Stress and life balance",
-    "relationships": "Relationships",
-    "moodAndEmotions": "Mood and emotions",
-    "workOrSchool": "Work or school",
-    "other": "Other"
-  },
-  "gender": {
-    "noPreference": "No preference",
-    "woman": "Woman",
-    "man": "Man",
-    "nonBinary": "Non-binary"
+    "consentLabel": "I have read the privacy notice. I understand this is a fictional demo for administrative intake and matching. Matching results are suggestions, not clinical recommendations. I consent to submit this information for the demo."
   },
   "actions": {
+    "next": "Continue",
     "back": "Back",
-    "continue": "Continue",
+    "edit": "Edit",
     "submit": "Submit intake",
     "submitting": "Submitting…",
     "startAnother": "Start another intake"
   },
-  "status": {
-    "submitting": "Submitting your intake…",
-    "successTitle": "Intake submitted",
-    "successBody": "Your administrative intake was received for this demo (reference <code>{{id}}</code>). A coordinator would review matching suggestions next. Matching results are suggestions, not clinical recommendations.",
-    "successBodyNoId": "Your administrative intake was received for this demo. A coordinator would review matching suggestions next. Matching results are suggestions, not clinical recommendations.",
-    "failed": "Unable to submit intake. Please try again."
-  },
   "validation": {
-    "modalityRequired": "Select a session format preference.",
+    "modalityRequired": "Select a preferred service modality.",
     "preferredPeriodsMin": "Select at least one preferred period.",
-    "maxPriceRequired": "Enter an approximate maximum session price.",
-    "maxPriceInvalid": "Enter a valid number.",
-    "maxPricePositive": "Price must be greater than zero.",
-    "maxPriceMax": "Enter a maximum of 2000 for this demo.",
-    "reasonRequired": "Select a general reason for seeking support.",
-    "descriptionMin": "Please share at least 20 characters so we can understand your needs.",
+    "invalidPrice": "Enter a valid maximum price greater than zero.",
+    "priceTooHigh": "Enter a maximum of 2000 for this demo.",
+    "supportTopicRequired": "Select a general support topic.",
     "descriptionMax": "Please keep the description under 2000 characters.",
-    "consentRequired": "Consent is required before submitting."
+    "consentRequired": "Consent is required before submitting.",
+    "required": "This field is required."
+  },
+  "success": {
+    "title": "Intake submitted",
+    "body": "Your administrative intake was received for this demo (reference <code>{{id}}</code>). A coordinator would review matching suggestions next. Matching results are suggestions, not clinical recommendations."
+  },
+  "status": {
+    "submitting": "Submitting your intake…"
+  },
+  "error": {
+    "submission": "Unable to submit intake. Please try again."
   }
 }
