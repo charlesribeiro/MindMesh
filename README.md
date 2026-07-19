@@ -1,75 +1,361 @@
-# React + TypeScript + Vite
+MindMesh
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+MindMesh is an open-source reference implementation for intelligent intake, professional matching, and referral workflows.
 
-Currently, two official plugins are available:
+The initial use case focuses on mental-health service networks, but the architecture is designed around generic concepts such as clients, professionals, organizations, intake, matching, and referrals.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The project also serves as a practical showcase of modern frontend engineering with React, TypeScript, GraphQL, internationalization, accessibility, testing, and trustworthy AI-assisted interfaces.
 
-## React Compiler
+Project status
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+MindMesh is currently under active development.
 
-## Expanding the ESLint configuration
+The first MVP is focused on a frontend-first workflow using fictional data and mocked services.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Current and planned capabilities include:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* Responsive public landing page
+* English and Brazilian Portuguese localization
+* Multi-step administrative intake
+* Structured intake review
+* Professional matching
+* Coordinator referral workflow
+* GraphQL integration
+* AI-assisted structured extraction
+* Local LLM integration
+* Real-time streaming interfaces
+* Automated testing
+* Accessibility validation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+MindMesh is not currently intended for production use.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Core user journey
 
-```
+The initial workflow is designed around the following flow:
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1. A prospective client visits the public application.
+2. The client completes an administrative intake.
+3. Free-text information may be converted into structured data.
+4. The client reviews and corrects the extracted information.
+5. The intake is submitted through a GraphQL boundary.
+6. A coordinator reviews suggested professionals.
+7. The coordinator approves or overrides a referral.
+8. The referral status is tracked.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Technical goals
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+MindMesh is intended to demonstrate:
 
-```
+* Senior-level React and TypeScript architecture
+* Explicit handling of asynchronous UI states
+* GraphQL queries, mutations, caching, and error handling
+* AI output validation and human review
+* Real-time interfaces using SSE and WebSockets
+* Deterministic UI behavior around non-deterministic model outputs
+* Accessible forms and keyboard navigation
+* Internationalization from the beginning
+* Testable domain logic
+* Graceful degradation when AI services are unavailable
+* Clean separation between domain, transport, and presentation layers
+
+Technology stack
+
+Frontend
+
+* React
+* TypeScript
+* Vite
+* React Router
+* React Hook Form
+* Zod
+* i18next
+* react-i18next
+* Zustand
+* graphql-request
+* Lucide React
+
+Testing
+
+* Vitest
+* React Testing Library
+* Testing Library User Event
+* jsdom
+
+Planned backend and AI infrastructure
+
+* GraphQL Yoga
+* Node.js
+* Ollama
+* Local language models
+* Server-Sent Events
+* WebSockets
+* Docker
+* bubbles-server local AI environment
+
+Internationalization
+
+MindMesh supports:
+
+* English
+* Brazilian Portuguese
+
+All user-facing text should be added through the internationalization system rather than hardcoded inside React components.
+
+Internal domain identifiers remain language-independent.
+
+For example:
+
+type ServiceModality =
+  | 'online'
+  | 'in-person'
+  | 'no-preference'
+
+Only the visible labels are translated.
+
+Healthcare and AI safety boundaries
+
+MindMesh is an administrative and educational prototype.
+
+It must not:
+
+* diagnose users;
+* replace professional clinical evaluation;
+* make autonomous clinical decisions;
+* present matching suggestions as clinical recommendations;
+* process real sensitive health information during development;
+* send personally identifiable health data to external AI providers;
+* treat crisis-related text as a routine matching request.
+
+AI-generated or AI-extracted information must remain:
+
+* validated;
+* explainable;
+* editable;
+* reviewable by a human;
+* safely rejectable when malformed.
+
+All development data must be fictional.
+
+Getting started
+
+Requirements
+
+* Node.js 22 or newer
+* npm 10 or newer
+
+Installation
+
+Clone the repository:
+
+git clone https://github.com/YOUR_USERNAME/MindMesh.git
+cd MindMesh
+
+Install dependencies:
+
+npm install
+
+Start the development server:
+
+npm run dev
+
+Open the local URL displayed by Vite, usually:
+
+http://localhost:5173
+
+Available scripts
+
+Start the development server:
+
+npm run dev
+
+Run the linter:
+
+npm run lint
+
+Create a production build:
+
+npm run build
+
+Run the test suite:
+
+npm run test
+
+Preview the production build locally:
+
+npm run preview
+
+Project structure
+
+The application is organized primarily by feature.
+
+src/
+├── app/
+├── components/
+├── domain/
+├── features/
+│   ├── intake/
+│   ├── landing/
+│   ├── matching/
+│   └── referrals/
+├── graphql/
+├── i18n/
+├── layouts/
+├── mocks/
+├── pages/
+├── schemas/
+└── test/
+
+The exact structure may evolve as the project grows.
+
+General principles:
+
+* Feature-specific code should remain inside its feature.
+* Domain logic should not depend on React.
+* Network logic should remain outside presentational components.
+* External and AI-generated data must be validated.
+* Local component state should not be promoted to global state without a clear need.
+
+Development workflow
+
+MindMesh uses a lightweight GitHub Flow.
+
+The main branch should remain stable and buildable.
+
+New work should be developed in focused branches such as:
+
+feature/intake-form
+feature/graphql-boundary
+feature/matching-engine
+feature/ai-intake-extraction
+feature/coordinator-dashboard
+
+Recommended workflow:
+
+1. Create a feature branch.
+2. Plan the change.
+3. Implement the smallest coherent feature.
+4. Run tests, linting, and the production build.
+5. Review the changes.
+6. Open a pull request.
+7. Merge into main.
+
+Conventional Commit messages are encouraged.
+
+Examples:
+
+feat(intake): add multi-step intake workflow
+feat(i18n): add Brazilian Portuguese localization
+test(intake): cover validation and navigation
+fix(layout): improve mobile menu accessibility
+docs: update project architecture
+
+AI-assisted development
+
+MindMesh is intentionally being developed with AI-assisted tools.
+
+AI-generated changes must still be:
+
+* reviewed by a human;
+* tested;
+* type-checked;
+* linted;
+* evaluated for accessibility;
+* evaluated for security and privacy;
+* checked against the project domain rules.
+
+The AI assistant should be treated as a pair programmer, not as an autonomous decision-maker.
+
+Project-specific instructions for coding agents are available in:
+
+AGENTS.md
+
+Roadmap
+
+Phase 1 — Frontend foundation
+
+* React and TypeScript setup
+* Responsive application layout
+* Routing
+* English and Brazilian Portuguese localization
+* Multi-step intake
+* Intake review
+* Fictional professional directory
+
+Phase 2 — Domain workflow
+
+* Deterministic matching engine
+* Coordinator dashboard
+* Referral approval
+* Referral status tracking
+* Mocked GraphQL boundary
+
+Phase 3 — GraphQL backend
+
+* GraphQL Yoga API
+* Typed queries and mutations
+* Response validation
+* Partial-error handling
+* Optimistic updates
+* Request cancellation
+
+Phase 4 — AI integration
+
+* Free-text structured extraction
+* Local Ollama integration
+* Schema-constrained output
+* Malformed-output recovery
+* Human review and correction
+* Graceful fallback to manual intake
+
+Phase 5 — Real-time and reliability
+
+* Server-Sent Events
+* Streaming UI
+* WebSocket workflows
+* Timeout and retry handling
+* Race-condition tests
+* End-to-end tests
+
+Open-source strategy
+
+The public repository is intended to remain generic and reusable.
+
+If MindMesh is adapted for a specific organization or professional network, that implementation may be maintained as a separate private fork containing:
+
+* private branding;
+* organization-specific workflows;
+* proprietary methodologies;
+* production infrastructure;
+* sensitive configuration;
+* real integrations.
+
+The public repository should not contain client secrets, real patient data, private business logic, or proprietary clinical protocols.
+
+Contributing
+
+Contributions, issue reports, architecture suggestions, and accessibility improvements are welcome.
+
+Before submitting a pull request:
+
+npm run test
+npm run lint
+npm run build
+
+Please keep pull requests focused and explain:
+
+* the problem being solved;
+* the proposed approach;
+* relevant trade-offs;
+* tests added or updated;
+* accessibility implications;
+* remaining risks.
+
+License
+
+This project is distributed under the terms defined in the repository’s LICENSE file.
+
+Disclaimer
+
+MindMesh is a fictional, open-source demonstration project for administrative intake, professional matching, and referral workflows.
+
+It is not a medical device, diagnostic tool, emergency service, or substitute for care from a qualified professional.
