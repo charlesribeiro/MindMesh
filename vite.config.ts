@@ -2,12 +2,28 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   test: {
-    environment: 'jsdom',
-    setupFiles: './src/test/setup.ts',
-    css: true,
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'web',
+          environment: 'jsdom',
+          setupFiles: './src/test/setup.ts',
+          include: ['src/**/*.test.{ts,tsx}'],
+          css: true,
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'api',
+          environment: 'node',
+          include: ['server/**/*.test.ts'],
+        },
+      },
+    ],
   },
 })

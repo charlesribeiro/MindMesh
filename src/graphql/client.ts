@@ -9,13 +9,20 @@ import {
 /** Finite client-side timeout for GraphQL requests (retryable as network). */
 export const GRAPHQL_REQUEST_TIMEOUT_MS = 15_000
 
-/** Absolute URL so graphql-request works in browser and Node/jsdom tests. */
+/** Default local Yoga endpoint when VITE_GRAPHQL_ENDPOINT is unset. */
+export const DEFAULT_GRAPHQL_ENDPOINT = 'http://localhost:4000/graphql'
+
+/**
+ * Absolute GraphQL URL for browser and Node/jsdom tests.
+ * Prefers VITE_GRAPHQL_ENDPOINT; falls back to the local Yoga default.
+ */
 export function resolveGraphQLEndpoint(): string {
-  if (typeof window !== 'undefined' && window.location?.origin) {
-    return `${window.location.origin}/graphql`
+  const configured = import.meta.env.VITE_GRAPHQL_ENDPOINT
+  if (typeof configured === 'string' && configured.trim().length > 0) {
+    return configured.trim()
   }
 
-  return 'http://localhost/graphql'
+  return DEFAULT_GRAPHQL_ENDPOINT
 }
 
 export const GRAPHQL_ENDPOINT = resolveGraphQLEndpoint()

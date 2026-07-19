@@ -7,7 +7,6 @@ describe('MSW browser worker', () => {
 
   afterEach(() => {
     vi.doUnmock('msw/browser')
-    vi.doUnmock('../prepareApp')
     vi.doUnmock('./browser')
     vi.resetModules()
   })
@@ -39,22 +38,32 @@ describe('MSW browser worker', () => {
     expect(start).not.toHaveBeenCalled()
   })
 
-  it('awaits the guarded worker startup from the main bootstrap path', async () => {
+  it('awaits mocked worker startup when mock API mode is enabled', async () => {
     const startBrowserWorker = vi.fn(async () => undefined)
     vi.doMock('./browser', () => ({ startBrowserWorker }))
 
     const { prepareApp } = await import('../prepareApp')
-    await prepareApp({ isDev: true })
+    await prepareApp({ isDev: true, useMockApi: true })
 
     expect(startBrowserWorker).toHaveBeenCalledOnce()
   })
 
-  it('skips worker startup from the main bootstrap path outside development', async () => {
+  it('skips worker startup when mock API mode is disabled', async () => {
     const startBrowserWorker = vi.fn(async () => undefined)
     vi.doMock('./browser', () => ({ startBrowserWorker }))
 
     const { prepareApp } = await import('../prepareApp')
-    await prepareApp({ isDev: false })
+    await prepareApp({ isDev: true, useMockApi: false })
+
+    expect(startBrowserWorker).not.toHaveBeenCalled()
+  })
+
+  it('skips worker startup outside development even if mock API is requested', async () => {
+    const startBrowserWorker = vi.fn(async () => undefined)
+    vi.doMock('./browser', () => ({ startBrowserWorker }))
+
+    const { prepareApp } = await import('../prepareApp')
+    await prepareApp({ isDev: false, useMockApi: true })
 
     expect(startBrowserWorker).not.toHaveBeenCalled()
   })

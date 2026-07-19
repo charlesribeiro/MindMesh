@@ -1,9 +1,15 @@
 /** Bootstrap hooks that must finish before the React tree mounts. */
 export async function prepareApp(
-  options: { isDev?: boolean } = {},
+  options: {
+    isDev?: boolean
+    useMockApi?: boolean
+  } = {},
 ): Promise<void> {
   const isDev = options.isDev ?? import.meta.env.DEV
-  if (!isDev) {
+  const useMockApi =
+    options.useMockApi ?? import.meta.env.VITE_USE_MOCK_API === 'true'
+
+  if (!isDev || !useMockApi) {
     return
   }
 

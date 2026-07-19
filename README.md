@@ -10,7 +10,7 @@ Project status
 
 MindMesh is currently under active development.
 
-The first MVP is focused on a frontend-first workflow using fictional data and mocked services.
+The first MVP uses fictional in-memory data with a local GraphQL Yoga API and optional MSW for frontend test isolation.
 
 Current and planned capabilities include:
 
@@ -19,7 +19,8 @@ Current and planned capabilities include:
 * Multi-step administrative intake
 * Structured intake review
 * Deterministic professional matching with explainable scores
-* Mocked GraphQL intake submission with runtime response validation
+* Local GraphQL Yoga API with Zod input validation and frontend response validation
+* MSW for frontend tests and explicit failure scenarios
 * Coordinator referral workflow
 * GraphQL integration
 * AI-assisted structured extraction
@@ -75,17 +76,24 @@ Frontend
 * graphql-request
 * Lucide React
 
+Backend (local)
+
+* GraphQL Yoga
+* Node.js
+* TypeScript
+* Zod
+* Deterministic matching engine (shared with the frontend domain layer)
+
 Testing
 
 * Vitest
 * React Testing Library
 * Testing Library User Event
 * jsdom
+* MSW (frontend integration and failure scenarios)
 
-Planned backend and AI infrastructure
+Planned later infrastructure
 
-* GraphQL Yoga
-* Node.js
 * Ollama
 * Local language models
 * Server-Sent Events
@@ -226,17 +234,66 @@ MindMesh ranking is a pure, deterministic function (`matchProfessionals`) that c
 * A human coordinator must review suggestions before any referral.
 * After GraphQL submission, ranked matches travel with intake in React Router location state. Refreshing or opening `/matches` directly shows an empty state until a new intake is submitted. The React matching page does not re-run the matching engine.
 
-Mocked GraphQL boundary
+Local architecture
 
-MindMesh introduces GraphQL before a real backend so the frontend can practice operations, typed variables, runtime validation, and explicit transport error handling.
+```
+React + Vite
+    ↓ GraphQL (graphql-request)
+GraphQL Yoga (http://localhost:4000/graphql)
+    ↓
+Zod input validation
+    ↓
+deterministic matching engine + fictional fixtures
+```
 
-* The browser talks to `/graphql` through `graphql-request`.
-* Mock Service Worker intercepts that endpoint in development and in Vitest.
-* The MSW handler reuses the pure `matchProfessionals` engine and returns fictional, deterministic payloads.
-* Every mutation response is validated with Zod before mapping into domain types.
-* Network failures, GraphQL errors, and malformed payloads are distinguished in the API layer and shown as non-technical user messages.
-* Development-only failure scenarios can be triggered with the `x-mindmesh-msw-scenario` header or `?mswScenario=` query parameter.
-* A later phase will replace MSW with a GraphQL Yoga API without changing the React feature shape.
+Local GraphQL API
+
+* Default development mode talks to a real GraphQL Yoga server on port `4000`.
+* The frontend operation (`SubmitIntake`) is the contract source of truth; field names were not casually renamed.
+* The resolver validates input again with Zod (GraphQL shape checks ≠ domain constraints).
+* Invalid input returns a safe GraphQL error (`Invalid SubmitIntakeInput`) without raw Zod or stack traces.
+* Matching reuses `matchProfessionals` via `buildSubmitIntakeResult` — no duplicated scoring formula.
+* Every successful client response is still validated with the frontend Zod response schema before mapping to domain types.
+
+Real API vs MSW mode
+
+* Real API (default): `npm run dev` starts Vite + Yoga. Do not set `VITE_USE_MOCK_API`.
+* MSW browser mode: set `VITE_USE_MOCK_API=true` (see `.env.example`). Use for explicit failure scenarios (`x-mindmesh-msw-scenario` or `?mswScenario=`).
+* Vitest always uses the MSW server worker for frontend tests; Yoga tests run in-memory via `yoga.fetch`.
+
+Local development
+
+```bash
+npm install
+cp .env.example .env   # optional; defaults already point at local Yoga
+
+# Frontend (http://localhost:5173) + API (http://localhost:4000/graphql)
+npm run dev
+
+# Frontend only
+npm run dev:web
+
+# API only (GraphiQL at http://localhost:4000/graphql)
+npm run dev:api
+
+# MSW mode (frontend only; intercepts GraphQL in the browser)
+VITE_USE_MOCK_API=true npm run dev:web
+
+npm test
+npm run test:web
+npm run test:api
+npm run lint
+npm run build
+npm run build:web
+npm run build:api
+npm run start:api
+```
+
+Environment
+
+* `VITE_GRAPHQL_ENDPOINT` — defaults to `http://localhost:4000/graphql`
+* `VITE_USE_MOCK_API=true` — start the browser MSW worker in development
+* CORS allows only `http://localhost:5173` and `http://127.0.0.1:5173` (not unrestricted)
 
 Development workflow
 
@@ -308,15 +365,15 @@ Phase 1 — Frontend foundation
 Phase 2 — Domain workflow
 
 * Mocked GraphQL boundary (graphql-request + MSW + Zod)
+* Local GraphQL Yoga API (fictional in-memory data; MSW retained for tests/failures)
 * Coordinator dashboard
 * Referral approval
 * Referral status tracking
 
-Phase 3 — GraphQL backend
+Phase 3 — GraphQL backend hardening
 
-* GraphQL Yoga API (replace MSW)
-* Typed queries and mutations
-* Response validation
+* Persistence (still none today)
+* Typed queries beyond SubmitIntake
 * Partial-error handling
 * Optimistic updates
 * Request cancellation
