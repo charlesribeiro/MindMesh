@@ -18,7 +18,12 @@ import {
   stepFieldNames,
   type IntakeFormParsed,
 } from '../schemas/intakeSchema'
-import type { IntakeFormValues, SubmissionState } from '../types/intake'
+import { toSubmissionPayload } from '../schemas/intakeSchema'
+import type {
+  IntakeFormValues,
+  IntakeSubmissionPayload,
+  SubmissionState,
+} from '../types/intake'
 import { submitIntake } from '../utils/submitIntake'
 import '../IntakeForm.css'
 
@@ -78,7 +83,8 @@ export function IntakeForm({ submitFn = submitIntake }: IntakeFormProps) {
 
     try {
       const result = await submitFn(values)
-      setSubmission({ status: 'success', intakeId: result.id })
+      const intake: IntakeSubmissionPayload = toSubmissionPayload(values)
+      setSubmission({ status: 'success', intakeId: result.id, intake })
     } catch {
       setSubmission({
         status: 'error',
@@ -95,7 +101,11 @@ export function IntakeForm({ submitFn = submitIntake }: IntakeFormProps) {
 
   if (submission.status === 'success') {
     return (
-      <IntakeSuccess intakeId={submission.intakeId} onStartOver={startOver} />
+      <IntakeSuccess
+        intakeId={submission.intakeId}
+        intake={submission.intake}
+        onStartOver={startOver}
+      />
     )
   }
 

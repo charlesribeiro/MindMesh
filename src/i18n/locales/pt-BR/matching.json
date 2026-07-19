@@ -1,0 +1,82 @@
+{
+  "page": {
+    "title": "Sugestões administrativas de correspondência",
+    "description": "Estes profissionais ranqueados são sugestões administrativas com base nas preferências da sua triagem. Uma pessoa coordenadora deve revisá-los antes de qualquer encaminhamento.",
+    "documentTitle": "MindMesh · Correspondências"
+  },
+  "results": {
+    "announcement": "{{count}} sugestão(ões) administrativa(s) de correspondência.",
+    "rank": "Sugestão {{rank}}"
+  },
+  "score": {
+    "label": "Pontuação da correspondência administrativa",
+    "strong": "Correspondência administrativa forte",
+    "possible": "Correspondência administrativa possível",
+    "limited": "Correspondência administrativa limitada",
+    "points": "{{score}} pontos"
+  },
+  "criteria": {
+    "modality": "Modalidade de atendimento",
+    "period": "Períodos preferidos",
+    "price": "Preço da sessão dentro do orçamento",
+    "language": "Idioma preferido",
+    "topic": "Tema de apoio",
+    "gender": "Preferência de gênero",
+    "pointsAwarded": "{{points}} pontos"
+  },
+  "sections": {
+    "matched": "Critérios atendidos",
+    "unmatched": "Critérios não atendidos",
+    "profile": "Perfil profissional"
+  },
+  "fields": {
+    "modality": "Modalidades",
+    "availability": "Períodos disponíveis",
+    "price": "Preço da sessão",
+    "languages": "Idiomas",
+    "topics": "Temas de apoio"
+  },
+  "empty": {
+    "title": "Sem dados de triagem para correspondência",
+    "description": "Conclua primeiro uma triagem administrativa. Atualizar esta página ou abri-la diretamente limpa os dados temporários da triagem nesta demonstração.",
+    "startIntake": "Iniciar triagem"
+  },
+  "actions": {
+    "startIntake": "Iniciar triagem",
+    "backHome": "Voltar ao início"
+  },
+  "disclaimer": "Estas correspondências são apenas sugestões administrativas. Não são diagnósticos, não são recomendações clínicas e não substituem o cuidado profissional. Uma pessoa coordenadora deve revisar cada resultado antes do encaminhamento.",
+  "options": {
+    "modality": {
+      "online": "Online",
+      "inPerson": "Presencial",
+      "noPreference": "Sem preferência"
+    },
+    "period": {
+      "morning": "Manhã",
+      "afternoon": "Tarde",
+      "evening": "Noite"
+    },
+    "language": {
+      "en": "Inglês",
+      "ptBR": "Português (Brasil)",
+      "es": "Espanhol",
+      "noPreference": "Sem preferência"
+    },
+    "supportTopic": {
+      "anxiety": "Ansiedade e estresse",
+      "relationships": "Relacionamentos",
+      "work": "Trabalho ou estudos",
+      "grief": "Luto e perda",
+      "selfKnowledge": "Autoconhecimento",
+      "other": "Outro"
+    },
+    "gender": {
+      "female": "Feminino",
+      "male": "Masculino",
+      "nonBinary": "Não binário",
+      "notSpecified": "Não especificado",
+      "noPreference": "Sem preferência"
+    }
+  }
+}

@@ -1,12 +1,21 @@
+import { Link } from 'react-router-dom'
 import { Trans, useTranslation } from 'react-i18next'
+import type { IntakeSubmissionPayload } from '../types/intake'
+import type { MatchesLocationState } from '../../matching/utils/parseMatchesState'
 
 type IntakeSuccessProps = {
   intakeId: string
+  intake: IntakeSubmissionPayload
   onStartOver: () => void
 }
 
-export function IntakeSuccess({ intakeId, onStartOver }: IntakeSuccessProps) {
+export function IntakeSuccess({
+  intakeId,
+  intake,
+  onStartOver,
+}: IntakeSuccessProps) {
   const { t } = useTranslation('intake')
+  const matchesState: MatchesLocationState = { intake, intakeId }
 
   return (
     <div className="intake-form intake-form--success" role="status">
@@ -19,9 +28,22 @@ export function IntakeSuccess({ intakeId, onStartOver }: IntakeSuccessProps) {
           components={{ code: <code /> }}
         />
       </p>
-      <button type="button" className="btn btn--secondary" onClick={onStartOver}>
-        {t('actions.startAnother')}
-      </button>
+      <div className="page-actions">
+        <Link
+          className="btn btn--primary"
+          to="/matches"
+          state={matchesState}
+        >
+          {t('actions.viewMatches')}
+        </Link>
+        <button
+          type="button"
+          className="btn btn--secondary"
+          onClick={onStartOver}
+        >
+          {t('actions.startAnother')}
+        </button>
+      </div>
     </div>
   )
 }

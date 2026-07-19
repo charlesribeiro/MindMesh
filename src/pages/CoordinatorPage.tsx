@@ -1,16 +1,11 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import type { Availability } from '../domain/types'
-import { professionals } from '../fixtures/professionals'
-
-const availabilityKeys: Record<Availability, string> = {
-  accepting: 'coordinator.availability.accepting',
-  waitlist: 'coordinator.availability.waitlist',
-  unavailable: 'coordinator.availability.unavailable',
-}
+import { professionalFixtures } from '../domain/professionals/professionalFixtures'
+import { formatSessionPrice } from '../features/intake/utils/formatIntake'
 
 export function CoordinatorPage() {
-  const { t } = useTranslation(['pages', 'common'])
+  const { t, i18n } = useTranslation(['pages', 'common'])
+  const activeProfessionals = professionalFixtures.filter((p) => p.active)
 
   return (
     <div className="page">
@@ -20,11 +15,15 @@ export function CoordinatorPage() {
 
       <h2>{t('pages:coordinator.sampleProfessionals')}</h2>
       <ul>
-        {professionals.map((professional) => (
+        {activeProfessionals.map((professional) => (
           <li key={professional.id}>
-            {professional.displayName}, {professional.credentials} —{' '}
-            {professional.locationLabel} (
-            {t(`pages:${availabilityKeys[professional.availability]}`)})
+            {professional.displayName} —{' '}
+            {formatSessionPrice(professional.sessionPrice, i18n.language)} /{' '}
+            {t('pages:coordinator.session')} (
+            {professional.active
+              ? t('pages:coordinator.status.active')
+              : t('pages:coordinator.status.inactive')}
+            )
           </li>
         ))}
       </ul>

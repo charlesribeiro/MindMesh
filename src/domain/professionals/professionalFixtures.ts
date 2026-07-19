@@ -1,0 +1,81 @@
+import type { Professional } from './professional'
+
+/**
+ * Fictional professional directory for development and demos.
+ * Identifiers and attribute values are stable domain IDs, not UI copy.
+ */
+export const professionalFixtures: readonly Professional[] = [
+  {
+    id: 'pro-maya-chen',
+    displayName: 'Maya Chen',
+    modalities: ['online', 'in-person'],
+    availablePeriods: ['morning', 'afternoon'],
+    sessionPrice: 120,
+    languages: ['en', 'es'],
+    supportTopics: ['anxiety', 'work', 'self-knowledge'],
+    gender: 'female',
+    active: true,
+  },
+  {
+    id: 'pro-jordan-rivera',
+    displayName: 'Jordan Rivera',
+    modalities: ['online'],
+    availablePeriods: ['evening'],
+    sessionPrice: 95,
+    languages: ['en', 'es'],
+    supportTopics: ['relationships', 'work'],
+    gender: 'non-binary',
+    active: true,
+  },
+  {
+    id: 'pro-samira-okonkwo',
+    displayName: 'Samira Okonkwo',
+    modalities: ['in-person', 'online'],
+    availablePeriods: ['morning', 'afternoon', 'evening'],
+    sessionPrice: 150,
+    languages: ['en'],
+    supportTopics: ['grief', 'anxiety', 'other'],
+    gender: 'female',
+    active: true,
+  },
+  {
+    id: 'pro-lucas-almeida',
+    displayName: 'Lucas Almeida',
+    modalities: ['online', 'in-person'],
+    availablePeriods: ['afternoon', 'evening'],
+    sessionPrice: 110,
+    languages: ['pt-BR', 'en'],
+    supportTopics: ['work', 'self-knowledge', 'anxiety'],
+    gender: 'male',
+    active: true,
+  },
+  {
+    id: 'pro-elena-vasquez',
+    displayName: 'Elena Vasquez',
+    modalities: ['in-person'],
+    availablePeriods: ['morning'],
+    sessionPrice: 180,
+    languages: ['es', 'en'],
+    supportTopics: ['relationships', 'grief'],
+    gender: 'female',
+    active: true,
+  },
+  {
+    id: 'pro-inactive-demo',
+    displayName: 'Inactive Demo Professional',
+    modalities: ['online', 'in-person'],
+    availablePeriods: ['morning', 'afternoon', 'evening'],
+    sessionPrice: 50,
+    languages: ['en', 'pt-BR', 'es'],
+    supportTopics: [
+      'anxiety',
+      'relationships',
+      'work',
+      'grief',
+      'self-knowledge',
+      'other',
+    ],
+    gender: 'not-specified',
+    active: false,
+  },
+]
