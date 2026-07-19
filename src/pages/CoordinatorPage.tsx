@@ -1,35 +1,40 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import type { Availability } from '../domain/types'
 import { professionals } from '../fixtures/professionals'
 
+const availabilityKeys: Record<Availability, string> = {
+  accepting: 'coordinator.availability.accepting',
+  waitlist: 'coordinator.availability.waitlist',
+  unavailable: 'coordinator.availability.unavailable',
+}
+
 export function CoordinatorPage() {
+  const { t } = useTranslation(['pages', 'common'])
+
   return (
     <div className="page">
-      <h1>Coordinator dashboard</h1>
-      <p className="page__lede">
-        Coordinators will review administrative match suggestions and approve or
-        override referrals. Approval UI is not implemented yet.
-      </p>
-      <p className="placeholder-note">
-        Demo placeholder — the professionals below are fictional. Suggestions
-        are not clinical recommendations.
-      </p>
+      <h1>{t('pages:coordinator.title')}</h1>
+      <p className="page__lede">{t('pages:coordinator.lede')}</p>
+      <p className="placeholder-note">{t('pages:coordinator.demoNote')}</p>
 
-      <h2>Sample professionals</h2>
+      <h2>{t('pages:coordinator.sampleProfessionals')}</h2>
       <ul>
         {professionals.map((professional) => (
           <li key={professional.id}>
             {professional.displayName}, {professional.credentials} —{' '}
-            {professional.locationLabel} ({professional.availability})
+            {professional.locationLabel} (
+            {t(`pages:${availabilityKeys[professional.availability]}`)})
           </li>
         ))}
       </ul>
 
       <div className="page-actions">
         <Link className="btn btn--secondary" to="/intake/review">
-          Back to review
+          {t('pages:coordinator.backToReview')}
         </Link>
         <Link className="btn btn--secondary" to="/">
-          Home
+          {t('common:actions.home')}
         </Link>
       </div>
     </div>

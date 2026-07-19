@@ -42,6 +42,29 @@
   gap: var(--space-md);
 }
 
+.app-header__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.language-selector {
+  position: relative;
+  z-index: 101;
+}
+
+.language-selector__control {
+  min-height: 2.75rem;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-raised);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
 .app-brand {
   font-family: var(--font-display);
   font-size: 1.35rem;

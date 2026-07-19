@@ -1,0 +1,41 @@
+{
+  "home": {
+    "documentTitle": "MindMesh",
+    "tagline": "Triagem administrativa e correspondência cuidadosa de profissionais — com uma pessoa coordenadora no processo.",
+    "startIntake": "Iniciar triagem",
+    "coordinatorView": "Visão da coordenação"
+  },
+  "intake": {
+    "documentTitle": "MindMesh · Triagem",
+    "title": "Triagem administrativa",
+    "lede": "Informe preferências e necessidades de apoio para que a coordenação possa sugerir profissionais. Este é um processo administrativo — o MindMesh não faz diagnósticos e os resultados da correspondência não são recomendações clínicas.",
+    "demoNote": "Apenas demonstração — use informações fictícias. Nada é enviado a um backend real ou a um provedor de IA."
+  },
+  "intakeReview": {
+    "documentTitle": "MindMesh · Revisão da triagem",
+    "title": "Revisar triagem",
+    "lede": "As pessoas clientes revisarão e corrigirão as informações estruturadas extraídas do texto livre antes do envio. Esta tela é um espaço reservado.",
+    "demoNote": "Demonstração — as informações extraídas devem permanecer sempre editáveis. Os resultados da correspondência são apenas sugestões administrativas.",
+    "continueToCoordinator": "Continuar para a coordenação",
+    "backToIntake": "Voltar à triagem"
+  },
+  "coordinator": {
+    "documentTitle": "MindMesh · Coordenação",
+    "title": "Painel da coordenação",
+    "lede": "A coordenação revisará as sugestões administrativas de correspondência e aprovará ou substituirá os encaminhamentos. A interface de aprovação ainda não foi implementada.",
+    "demoNote": "Demonstração — os profissionais abaixo são fictícios. As sugestões não são recomendações clínicas.",
+    "sampleProfessionals": "Profissionais de exemplo",
+    "backToReview": "Voltar à revisão",
+    "availability": {
+      "accepting": "aceitando",
+      "waitlist": "lista de espera",
+      "unavailable": "indisponível"
+    }
+  },
+  "notFound": {
+    "documentTitle": "MindMesh · Página não encontrada",
+    "title": "Página não encontrada",
+    "lede": "Essa rota não existe nesta demonstração do MindMesh.",
+    "returnHome": "Voltar ao início"
+  }
+}

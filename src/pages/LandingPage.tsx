@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import './LandingPage.css'
 
 export function LandingPage() {
+  const { t } = useTranslation('pages')
+
   return (
     <div className="landing">
       <section className="landing__hero" aria-labelledby="landing-brand">
@@ -9,16 +12,13 @@ export function LandingPage() {
           <h1 id="landing-brand" className="landing__brand">
             MindMesh
           </h1>
-          <p className="landing__tagline">
-            Administrative intake and thoughtful professional matching—with a
-            human coordinator in the loop.
-          </p>
+          <p className="landing__tagline">{t('home.tagline')}</p>
           <div className="landing__actions">
             <Link className="btn btn--primary" to="/intake">
-              Start intake
+              {t('home.startIntake')}
             </Link>
             <Link className="btn btn--secondary" to="/coordinator">
-              Coordinator view
+              {t('home.coordinatorView')}
             </Link>
           </div>
         </div>

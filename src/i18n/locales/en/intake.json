@@ -1,0 +1,92 @@
+{
+  "progressLabel": "Intake progress",
+  "steps": {
+    "preferences": "Preferences",
+    "supportNeeds": "Support needs",
+    "review": "Review"
+  },
+  "preferences": {
+    "title": "Preferences",
+    "lede": "Tell us how and when you prefer to meet. These are administrative preferences for matching, not clinical recommendations.",
+    "sessionFormat": "Session format",
+    "preferredPeriods": "Preferred periods",
+    "periodsHint": "Select all that work for you.",
+    "maxPrice": "Approximate maximum session price (USD)",
+    "maxPriceHint": "An estimate is fine. This helps with administrative matching only."
+  },
+  "supportNeeds": {
+    "title": "Support needs",
+    "lede": "Share a general reason and a short description. MindMesh does not diagnose and does not replace professional care.",
+    "reason": "General reason for seeking support",
+    "selectReason": "Select a reason",
+    "description": "Describe what you are looking for",
+    "descriptionHint": "Free text for administrative matching. Avoid sharing information you would not want stored in a demo.",
+    "genderPreference": "Professional gender preference (optional)"
+  },
+  "review": {
+    "title": "Review",
+    "lede": "Confirm your information before submitting. You can return to any step to make changes.",
+    "editPreferences": "Edit preferences",
+    "editSupportNeeds": "Edit support needs",
+    "sessionFormat": "Session format",
+    "preferredPeriods": "Preferred periods",
+    "maxPrice": "Approximate maximum session price",
+    "generalReason": "General reason",
+    "description": "Description",
+    "genderPreference": "Professional gender preference",
+    "noneSelected": "None selected",
+    "notProvided": "Not provided",
+    "consentLegend": "Consent",
+    "consentLabel": "I understand this is a fictional demo for administrative intake and matching. Matching results are suggestions, not clinical recommendations. I consent to submit this information for the demo.",
+    "consentHint": "Required before submission."
+  },
+  "modality": {
+    "online": "Online",
+    "inPerson": "In person",
+    "noPreference": "No preference"
+  },
+  "period": {
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening"
+  },
+  "reason": {
+    "stressAndLifeBalance": "Stress and life balance",
+    "relationships": "Relationships",
+    "moodAndEmotions": "Mood and emotions",
+    "workOrSchool": "Work or school",
+    "other": "Other"
+  },
+  "gender": {
+    "noPreference": "No preference",
+    "woman": "Woman",
+    "man": "Man",
+    "nonBinary": "Non-binary"
+  },
+  "actions": {
+    "back": "Back",
+    "continue": "Continue",
+    "submit": "Submit intake",
+    "submitting": "Submitting…",
+    "startAnother": "Start another intake"
+  },
+  "status": {
+    "submitting": "Submitting your intake…",
+    "successTitle": "Intake submitted",
+    "successBody": "Your administrative intake was received for this demo (reference <code>{{id}}</code>). A coordinator would review matching suggestions next. Matching results are suggestions, not clinical recommendations.",
+    "successBodyNoId": "Your administrative intake was received for this demo. A coordinator would review matching suggestions next. Matching results are suggestions, not clinical recommendations.",
+    "failed": "Unable to submit intake. Please try again."
+  },
+  "validation": {
+    "modalityRequired": "Select a session format preference.",
+    "preferredPeriodsMin": "Select at least one preferred period.",
+    "maxPriceRequired": "Enter an approximate maximum session price.",
+    "maxPriceInvalid": "Enter a valid number.",
+    "maxPricePositive": "Price must be greater than zero.",
+    "maxPriceMax": "Enter a maximum of 2000 for this demo.",
+    "reasonRequired": "Select a general reason for seeking support.",
+    "descriptionMin": "Please share at least 20 characters so we can understand your needs.",
+    "descriptionMax": "Please keep the description under 2000 characters.",
+    "consentRequired": "Consent is required before submitting."
+  }
+}

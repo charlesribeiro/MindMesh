@@ -1,45 +1,27 @@
 import { useEffect, useId, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { LanguageSelector } from '../components/LanguageSelector'
 import './AppLayout.css'
 
 const navItems = [
-  { to: '/', label: 'Home', end: true },
-  { to: '/intake', label: 'Intake', end: true },
-  { to: '/intake/review', label: 'Review', end: true },
-  { to: '/coordinator', label: 'Coordinator', end: true },
+  { to: '/', labelKey: 'home', end: true },
+  { to: '/intake', labelKey: 'intake', end: true },
+  { to: '/intake/review', labelKey: 'review', end: true },
+  { to: '/coordinator', labelKey: 'coordinator', end: true },
 ] as const
 
-const titles: Record<string, string> = {
-  '/': 'MindMesh',
-  '/intake': 'MindMesh · Intake',
-  '/intake/review': 'MindMesh · Intake review',
-  '/coordinator': 'MindMesh · Coordinator',
+const documentTitleKeys: Record<string, string> = {
+  '/': 'home.documentTitle',
+  '/intake': 'intake.documentTitle',
+  '/intake/review': 'intakeReview.documentTitle',
+  '/coordinator': 'coordinator.documentTitle',
 }
 
-export function AppLayout() {
-  const location = useLocation()
+function PrimaryNav() {
+  const { t } = useTranslation(['common', 'navigation'])
   const [menuOpen, setMenuOpen] = useState(false)
-  const [menuPath, setMenuPath] = useState(location.pathname)
   const navId = useId()
-
-  if (location.pathname !== menuPath) {
-    setMenuPath(location.pathname)
-    setMenuOpen(false)
-  }
-
-  useEffect(() => {
-    const title = titles[location.pathname] ?? 'MindMesh · Page not found'
-    document.title = title
-  }, [location.pathname])
-
-  useEffect(() => {
-    const main = document.getElementById('main-content')
-    const heading = main?.querySelector('h1')
-    if (heading instanceof HTMLElement) {
-      heading.tabIndex = -1
-      heading.focus({ preventScroll: true })
-    }
-  }, [location.pathname])
 
   useEffect(() => {
     if (!menuOpen) return
@@ -55,9 +37,76 @@ export function AppLayout() {
   }, [menuOpen])
 
   return (
+    <>
+      <button
+        type="button"
+        className="app-nav__toggle"
+        aria-expanded={menuOpen}
+        aria-controls={navId}
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        <span className="visually-hidden">
+          {menuOpen
+            ? t('common:accessibility.closeMenu')
+            : t('common:accessibility.openMenu')}
+        </span>
+        <span className="app-nav__toggle-icon" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </span>
+      </button>
+
+      <nav aria-label={t('common:accessibility.primaryNavigation')}>
+        <ul
+          id={navId}
+          className={`app-nav__list${menuOpen ? ' app-nav__list--open' : ''}`}
+        >
+          {navItems.map((item) => (
+            <li key={item.to}>
+              <NavLink
+                to={item.to}
+                end={item.end}
+                className="app-nav__link"
+                onClick={() => setMenuOpen(false)}
+              >
+                {t(`navigation:${item.labelKey}`)}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </>
+  )
+}
+
+export function AppLayout() {
+  const location = useLocation()
+  const { t, i18n } = useTranslation(['common', 'pages'])
+
+  useEffect(() => {
+    const titleKey =
+      documentTitleKeys[location.pathname] ?? 'notFound.documentTitle'
+    document.title = t(`pages:${titleKey}`)
+  }, [location.pathname, t, i18n.language])
+
+  useEffect(() => {
+    document.documentElement.lang = i18n.resolvedLanguage ?? i18n.language
+  }, [i18n.language, i18n.resolvedLanguage])
+
+  useEffect(() => {
+    const main = document.getElementById('main-content')
+    const heading = main?.querySelector('h1')
+    if (heading instanceof HTMLElement) {
+      heading.tabIndex = -1
+      heading.focus({ preventScroll: true })
+    }
+  }, [location.pathname])
+
+  return (
     <div className="app-layout">
       <a className="skip-link" href="#main-content">
-        Skip to main content
+        {t('common:accessibility.skipToMain')}
       </a>
 
       <header className="app-header">
@@ -65,43 +114,11 @@ export function AppLayout() {
           <Link className="app-brand" to="/">
             MindMesh
           </Link>
-
-          <button
-            type="button"
-            className="app-nav__toggle"
-            aria-expanded={menuOpen}
-            aria-controls={navId}
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            <span className="visually-hidden">
-              {menuOpen ? 'Close menu' : 'Open menu'}
-            </span>
-            <span className="app-nav__toggle-icon" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </span>
-          </button>
-
-          <nav aria-label="Primary">
-            <ul
-              id={navId}
-              className={`app-nav__list${menuOpen ? ' app-nav__list--open' : ''}`}
-            >
-              {navItems.map((item) => (
-                <li key={item.to}>
-                  <NavLink
-                    to={item.to}
-                    end={item.end}
-                    className="app-nav__link"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {item.label}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <div className="app-header__controls">
+            <LanguageSelector />
+            {/* Remount on route change so the mobile menu starts closed. */}
+            <PrimaryNav key={location.pathname} />
+          </div>
         </div>
       </header>
 
@@ -111,11 +128,7 @@ export function AppLayout() {
 
       <footer className="app-footer">
         <div className="app-footer__inner">
-          <p>
-            MindMesh is a fictional demo for administrative intake and
-            professional matching. Matching results are suggestions, not clinical
-            recommendations.
-          </p>
+          <p>{t('common:footer.demoDisclaimer')}</p>
         </div>
       </footer>
     </div>

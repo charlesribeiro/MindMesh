@@ -1,23 +1,20 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export function IntakeReviewPage() {
+  const { t } = useTranslation('pages')
+
   return (
     <div className="page">
-      <h1>Review intake</h1>
-      <p className="page__lede">
-        Clients will review and correct structured information extracted from
-        free text before submission. This screen is a placeholder.
-      </p>
-      <p className="placeholder-note">
-        Demo placeholder — extracted information must always remain editable.
-        Matching results are administrative suggestions only.
-      </p>
+      <h1>{t('intakeReview.title')}</h1>
+      <p className="page__lede">{t('intakeReview.lede')}</p>
+      <p className="placeholder-note">{t('intakeReview.demoNote')}</p>
       <div className="page-actions">
         <Link className="btn btn--primary" to="/coordinator">
-          Continue to coordinator
+          {t('intakeReview.continueToCoordinator')}
         </Link>
         <Link className="btn btn--secondary" to="/intake">
-          Back to intake
+          {t('intakeReview.backToIntake')}
         </Link>
       </div>
     </div>

@@ -1,0 +1,21 @@
+{
+  "accessibility": {
+    "skipToMain": "Ir para o conteúdo principal",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "primaryNavigation": "Navegação principal",
+    "languageSelector": "Idioma"
+  },
+  "footer": {
+    "demoDisclaimer": "O MindMesh é uma demonstração fictícia de triagem administrativa e correspondência de profissionais. Os resultados da correspondência são sugestões, não recomendações clínicas."
+  },
+  "language": {
+    "en": "English",
+    "ptBR": "Português (Brasil)"
+  },
+  "actions": {
+    "back": "Voltar",
+    "continue": "Continuar",
+    "home": "Início"
+  }
+}

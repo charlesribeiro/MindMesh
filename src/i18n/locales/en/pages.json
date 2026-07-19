@@ -1,0 +1,41 @@
+{
+  "home": {
+    "documentTitle": "MindMesh",
+    "tagline": "Administrative intake and thoughtful professional matching—with a human coordinator in the loop.",
+    "startIntake": "Start intake",
+    "coordinatorView": "Coordinator view"
+  },
+  "intake": {
+    "documentTitle": "MindMesh · Intake",
+    "title": "Administrative intake",
+    "lede": "Share preferences and support needs so a coordinator can suggest professionals. This is an administrative process—MindMesh does not diagnose and matching results are not clinical recommendations.",
+    "demoNote": "Demo only — use fictional information. Nothing is sent to a real backend or AI provider."
+  },
+  "intakeReview": {
+    "documentTitle": "MindMesh · Intake review",
+    "title": "Review intake",
+    "lede": "Clients will review and correct structured information extracted from free text before submission. This screen is a placeholder.",
+    "demoNote": "Demo placeholder — extracted information must always remain editable. Matching results are administrative suggestions only.",
+    "continueToCoordinator": "Continue to coordinator",
+    "backToIntake": "Back to intake"
+  },
+  "coordinator": {
+    "documentTitle": "MindMesh · Coordinator",
+    "title": "Coordinator dashboard",
+    "lede": "Coordinators will review administrative match suggestions and approve or override referrals. Approval UI is not implemented yet.",
+    "demoNote": "Demo placeholder — the professionals below are fictional. Suggestions are not clinical recommendations.",
+    "sampleProfessionals": "Sample professionals",
+    "backToReview": "Back to review",
+    "availability": {
+      "accepting": "accepting",
+      "waitlist": "waitlist",
+      "unavailable": "unavailable"
+    }
+  },
+  "notFound": {
+    "documentTitle": "MindMesh · Page not found",
+    "title": "Page not found",
+    "lede": "That route does not exist in this MindMesh demo.",
+    "returnHome": "Return home"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "accessibility": {
+    "skipToMain": "Skip to main content",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "primaryNavigation": "Primary navigation",
+    "languageSelector": "Language"
+  },
+  "footer": {
+    "demoDisclaimer": "MindMesh is a fictional demo for administrative intake and professional matching. Matching results are suggestions, not clinical recommendations."
+  },
+  "language": {
+    "en": "English",
+    "ptBR": "Português (Brasil)"
+  },
+  "actions": {
+    "back": "Back",
+    "continue": "Continue",
+    "home": "Home"
+  }
+}
