@@ -1,9 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import { IntakeForm, type IntakeFormProps } from './components/IntakeForm'
+import { IntakeForm } from './components/IntakeForm'
 
-export type IntakePageProps = Pick<IntakeFormProps, 'submitFn'>
-
-export function IntakePage({ submitFn }: IntakePageProps) {
+export function IntakePage() {
   const { t } = useTranslation('intake')
 
   return (
@@ -11,7 +9,7 @@ export function IntakePage({ submitFn }: IntakePageProps) {
       <h1>{t('page.title')}</h1>
       <p className="page__lede">{t('page.lede')}</p>
       <p className="placeholder-note">{t('page.demoNote')}</p>
-      <IntakeForm submitFn={submitFn} />
+      <IntakeForm />
     </div>
   )
 }

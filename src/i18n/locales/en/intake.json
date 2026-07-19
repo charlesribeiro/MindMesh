@@ -82,6 +82,7 @@
     "edit": "Edit",
     "submit": "Submit intake",
     "submitting": "Submitting…",
+    "retry": "Try again",
     "viewMatches": "View match suggestions",
     "startAnother": "Start another intake"
   },
@@ -103,6 +104,11 @@
     "submitting": "Submitting your intake…"
   },
   "error": {
-    "submission": "Unable to submit intake. Please try again."
+    "submission": "Unable to submit intake. Please try again.",
+    "network": "We could not reach the server. Check your connection and try again.",
+    "server": "The server could not complete your intake. Please try again.",
+    "invalidResponse": "The server returned an unexpected response. Please try again.",
+    "unexpected": "Something went wrong while submitting. Please try again.",
+    "retryHint": "Your answers are still on this page. You can submit again when ready."
   }
 }

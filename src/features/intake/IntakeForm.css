@@ -143,6 +143,31 @@
   font-weight: 500;
 }
 
+.intake-error-summary {
+  margin: var(--space-md) 0;
+  padding: var(--space-md);
+  border: 1px solid #c58a8a;
+  border-radius: var(--radius-sm);
+  background: #f8ecec;
+}
+
+.intake-error-summary:focus {
+  outline: none;
+}
+
+.intake-error-summary:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.intake-error-summary .intake-error {
+  margin: 0;
+}
+
+.intake-error-summary .intake-hint {
+  margin: var(--space-sm) 0 0;
+}
+
 .intake-review-block {
   margin-bottom: var(--space-lg);
   padding: var(--space-md);

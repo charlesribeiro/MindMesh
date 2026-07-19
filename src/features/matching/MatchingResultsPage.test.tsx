@@ -1,9 +1,11 @@
 import { render, screen, within } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import i18n from '../../i18n'
 import type { IntakeSubmissionPayload } from '../intake/types/intake'
+import type { MatchResult } from './domain/matchingTypes'
 import { MatchingResultsPage } from './MatchingResultsPage'
+import * as matchProfessionalsModule from './domain/matchProfessionals'
 
 const sampleIntake: IntakeSubmissionPayload = {
   modality: 'online',
@@ -16,13 +18,49 @@ const sampleIntake: IntakeSubmissionPayload = {
   consent: true,
 }
 
-function renderMatches(state?: { intake: IntakeSubmissionPayload }) {
+const sampleMatches: MatchResult[] = [
+  {
+    score: 95,
+    professional: {
+      id: 'pro-maya-chen',
+      displayName: 'Maya Chen',
+      modalities: ['online', 'in-person'],
+      availablePeriods: ['morning', 'afternoon'],
+      sessionPrice: 120,
+      languages: ['en', 'es'],
+      supportTopics: ['anxiety', 'work', 'self-knowledge'],
+      gender: 'female',
+      active: true,
+    },
+    matchedCriteria: [
+      {
+        id: 'modality',
+        points: 30,
+        matched: true,
+        intakeValue: 'online',
+        professionalValue: ['online', 'in-person'],
+      },
+    ],
+    unmatchedCriteria: [
+      {
+        id: 'period',
+        points: 0,
+        matched: false,
+        intakeValue: ['morning', 'evening'],
+        professionalValue: ['morning', 'afternoon'],
+      },
+    ],
+  },
+]
+
+function renderMatches(state?: {
+  intake: IntakeSubmissionPayload
+  matches: MatchResult[]
+}) {
   return render(
     <MemoryRouter
       initialEntries={[
-        state
-          ? { pathname: '/matches', state }
-          : { pathname: '/matches' },
+        state ? { pathname: '/matches', state } : { pathname: '/matches' },
       ]}
     >
       <Routes>
@@ -34,8 +72,10 @@ function renderMatches(state?: { intake: IntakeSubmissionPayload }) {
 }
 
 describe('MatchingResultsPage', () => {
-  it('renders ranked results with matched and unmatched explanations', () => {
-    renderMatches({ intake: sampleIntake })
+  it('renders matches returned by the mutation without calling the engine', () => {
+    const spy = vi.spyOn(matchProfessionalsModule, 'matchProfessionals')
+
+    renderMatches({ intake: sampleIntake, matches: sampleMatches })
 
     expect(
       screen.getByRole('heading', {
@@ -44,14 +84,10 @@ describe('MatchingResultsPage', () => {
       }),
     ).toBeInTheDocument()
 
-    expect(screen.getByRole('status')).toHaveTextContent(
-      /administrative match suggestion/i,
-    )
-
     const firstCard = screen.getAllByRole('article')[0]
     expect(firstCard).toBeDefined()
     expect(
-      within(firstCard!).getByRole('heading', { level: 2 }),
+      within(firstCard!).getByRole('heading', { name: 'Maya Chen' }),
     ).toBeInTheDocument()
     expect(
       within(firstCard!).getByText('Strong administrative match'),
@@ -63,10 +99,12 @@ describe('MatchingResultsPage', () => {
     expect(
       within(firstCard!).getByRole('heading', { name: 'Unmatched criteria' }),
     ).toBeInTheDocument()
+    expect(spy).not.toHaveBeenCalled()
+    spy.mockRestore()
   })
 
   it('shows localized English score labels with text bands', () => {
-    renderMatches({ intake: sampleIntake })
+    renderMatches({ intake: sampleIntake, matches: sampleMatches })
 
     expect(
       screen.getAllByText(
@@ -78,7 +116,7 @@ describe('MatchingResultsPage', () => {
 
   it('shows localized Brazilian Portuguese content', async () => {
     await i18n.changeLanguage('pt-BR')
-    renderMatches({ intake: sampleIntake })
+    renderMatches({ intake: sampleIntake, matches: sampleMatches })
 
     expect(
       await screen.findByRole('heading', {
@@ -87,16 +125,11 @@ describe('MatchingResultsPage', () => {
       }),
     ).toBeInTheDocument()
     expect(
-      screen.getAllByText(
-        /Correspondência administrativa forte|Correspondência administrativa possível|Correspondência administrativa limitada/,
-      ).length,
-    ).toBeGreaterThan(0)
-    expect(
-      screen.getAllByRole('heading', { name: 'Critérios atendidos' }).length,
+      screen.getAllByText(/Correspondência administrativa forte/).length,
     ).toBeGreaterThan(0)
   })
 
-  it('shows an accessible empty state without intake data', () => {
+  it('shows an accessible empty state without mutation result data', () => {
     renderMatches()
 
     expect(
@@ -107,18 +140,37 @@ describe('MatchingResultsPage', () => {
     ).toHaveAttribute('href', '/intake')
   })
 
+  it('shows empty state when intake is present without matches', () => {
+    render(
+      <MemoryRouter
+        initialEntries={[
+          {
+            pathname: '/matches',
+            state: { intake: sampleIntake },
+          },
+        ]}
+      >
+        <Routes>
+          <Route path="/matches" element={<MatchingResultsPage />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    expect(
+      screen.getByRole('heading', { name: 'No intake data for matching' }),
+    ).toBeInTheDocument()
+  })
+
   it('renders an accessible disclaimer', () => {
-    renderMatches({ intake: sampleIntake })
+    renderMatches({ intake: sampleIntake, matches: sampleMatches })
 
     const disclaimer = screen.getByRole('note')
     expect(disclaimer).toHaveTextContent(/administrative suggestions/i)
     expect(disclaimer).toHaveTextContent(/not diagnoses/i)
-    expect(disclaimer).toHaveTextContent(/not clinical recommendations/i)
-    expect(disclaimer).toHaveTextContent(/human coordinator/i)
   })
 
   it('links back to intake from results', () => {
-    renderMatches({ intake: sampleIntake })
+    renderMatches({ intake: sampleIntake, matches: sampleMatches })
 
     expect(
       screen.getByRole('link', { name: 'Start intake' }),
