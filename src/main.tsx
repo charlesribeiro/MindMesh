@@ -11,10 +11,18 @@ async function prepare(): Promise<void> {
   }
 }
 
-void prepare().then(() => {
+function renderApp(): void {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <App />
     </StrictMode>,
   )
-})
+}
+
+void prepare()
+  .catch((error: unknown) => {
+    console.error('Failed to prepare application bootstrap', error)
+  })
+  .finally(() => {
+    renderApp()
+  })

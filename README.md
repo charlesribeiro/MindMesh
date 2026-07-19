@@ -307,7 +307,6 @@ Phase 1 — Frontend foundation
 
 Phase 2 — Domain workflow
 
-* Deterministic matching engine (administrative suggestions)
 * Mocked GraphQL boundary (graphql-request + MSW + Zod)
 * Coordinator dashboard
 * Referral approval
