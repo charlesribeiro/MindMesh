@@ -7,40 +7,37 @@ import {
 } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useTranslation } from 'react-i18next'
+import {
+  SubmitIntakeApiError,
+  submitIntakeErrorI18nKey,
+} from '../../../graphql/errors'
 import { IntakeProgress } from './IntakeProgress'
 import { IntakeReviewStep } from './IntakeReviewStep'
 import { IntakeSuccess } from './IntakeSuccess'
 import { PreferencesStep } from './PreferencesStep'
 import { SupportNeedsStep } from './SupportNeedsStep'
+import { submitIntake } from '../api/submitIntake'
 import {
   intakeFormDefaultValues,
   intakeFormSchema,
   stepFieldNames,
   type IntakeFormParsed,
 } from '../schemas/intakeSchema'
-import { toSubmissionPayload } from '../schemas/intakeSchema'
-import type {
-  IntakeFormValues,
-  IntakeSubmissionPayload,
-  SubmissionState,
-} from '../types/intake'
-import { submitIntake } from '../utils/submitIntake'
+import type { IntakeFormValues, SubmissionState } from '../types/intake'
 import '../IntakeForm.css'
 
 const TOTAL_STEPS = 3
 
-export type IntakeFormProps = {
-  submitFn?: typeof submitIntake
-}
-
-export function IntakeForm({ submitFn = submitIntake }: IntakeFormProps) {
+export function IntakeForm() {
   const { t } = useTranslation('intake')
   const [step, setStep] = useState(0)
   const [submission, setSubmission] = useState<SubmissionState>({
     status: 'idle',
   })
   const headingRef = useRef<HTMLHeadingElement>(null)
+  const errorSummaryRef = useRef<HTMLDivElement>(null)
   const statusId = useId()
+  const lastAnnouncedErrorRef = useRef<string | null>(null)
 
   const methods = useForm<IntakeFormValues, unknown, IntakeFormParsed>({
     resolver: zodResolver(
@@ -56,6 +53,19 @@ export function IntakeForm({ submitFn = submitIntake }: IntakeFormProps) {
   useEffect(() => {
     headingRef.current?.focus({ preventScroll: true })
   }, [step])
+
+  useEffect(() => {
+    if (submission.status !== 'error') {
+      return
+    }
+
+    if (lastAnnouncedErrorRef.current === submission.message) {
+      return
+    }
+
+    lastAnnouncedErrorRef.current = submission.message
+    errorSummaryRef.current?.focus({ preventScroll: true })
+  }, [submission])
 
   async function goNext() {
     const fields = [...stepFieldNames[step]]
@@ -80,15 +90,24 @@ export function IntakeForm({ submitFn = submitIntake }: IntakeFormProps) {
     }
 
     setSubmission({ status: 'submitting' })
+    lastAnnouncedErrorRef.current = null
 
     try {
-      const result = await submitFn(values)
-      const intake: IntakeSubmissionPayload = toSubmissionPayload(values)
-      setSubmission({ status: 'success', intakeId: result.id, intake })
-    } catch {
+      const result = await submitIntake(values)
+      setSubmission({
+        status: 'success',
+        intakeId: result.intakeId,
+        intake: result.intake,
+        matches: result.matches,
+      })
+    } catch (error) {
+      const kind =
+        error instanceof SubmitIntakeApiError ? error.kind : 'unexpected'
+      const message = t(submitIntakeErrorI18nKey(kind))
       setSubmission({
         status: 'error',
-        message: t('error.submission'),
+        message,
+        kind,
       })
     }
   }
@@ -97,6 +116,7 @@ export function IntakeForm({ submitFn = submitIntake }: IntakeFormProps) {
     reset(intakeFormDefaultValues)
     setStep(0)
     setSubmission({ status: 'idle' })
+    lastAnnouncedErrorRef.current = null
   }
 
   if (submission.status === 'success') {
@@ -104,6 +124,7 @@ export function IntakeForm({ submitFn = submitIntake }: IntakeFormProps) {
       <IntakeSuccess
         intakeId={submission.intakeId}
         intake={submission.intake}
+        matches={submission.matches}
         onStartOver={startOver}
       />
     )
@@ -139,15 +160,20 @@ export function IntakeForm({ submitFn = submitIntake }: IntakeFormProps) {
           aria-live="polite"
           aria-atomic="true"
         >
-          {submission.status === 'submitting' ? (
-            <p>{t('status.submitting')}</p>
-          ) : null}
-          {submission.status === 'error' ? (
-            <p className="intake-error" role="alert">
-              {submission.message}
-            </p>
-          ) : null}
+          {isSubmitting ? <p>{t('status.submitting')}</p> : null}
         </div>
+
+        {submission.status === 'error' ? (
+          <div
+            ref={errorSummaryRef}
+            className="intake-error-summary"
+            role="alert"
+            tabIndex={-1}
+          >
+            <p className="intake-error">{submission.message}</p>
+            <p className="intake-hint">{t('error.retryHint')}</p>
+          </div>
+        ) : null}
 
         <div className="intake-actions">
           {step > 0 ? (
@@ -180,7 +206,11 @@ export function IntakeForm({ submitFn = submitIntake }: IntakeFormProps) {
               className="btn btn--primary"
               disabled={isSubmitting}
             >
-              {isSubmitting ? t('actions.submitting') : t('actions.submit')}
+              {isSubmitting
+                ? t('actions.submitting')
+                : submission.status === 'error'
+                  ? t('actions.retry')
+                  : t('actions.submit')}
             </button>
           )}
         </div>
