@@ -1,7 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { professionalFixtures } from '../../domain/professionals/professionalFixtures'
-import { matchProfessionals } from './domain/matchProfessionals'
 import { ProfessionalMatchCard } from './components/ProfessionalMatchCard'
 import { parseMatchesLocationState } from './utils/parseMatchesState'
 import './MatchingResultsPage.css'
@@ -28,7 +26,7 @@ export function MatchingResultsPage() {
     )
   }
 
-  const results = matchProfessionals(parsed.intake, professionalFixtures)
+  const { matches } = parsed
 
   return (
     <div className="page matching-page">
@@ -45,14 +43,14 @@ export function MatchingResultsPage() {
         aria-live="polite"
         aria-atomic="true"
       >
-        {t('matching:results.announcement', { count: results.length })}
+        {t('matching:results.announcement', { count: matches.length })}
       </div>
 
-      {results.length === 0 ? (
+      {matches.length === 0 ? (
         <p>{t('matching:results.announcement', { count: 0 })}</p>
       ) : (
         <ol className="matching-results__list">
-          {results.map((result, index) => (
+          {matches.map((result, index) => (
             <li key={result.professional.id}>
               <ProfessionalMatchCard result={result} rank={index + 1} />
             </li>

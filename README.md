@@ -19,6 +19,7 @@ Current and planned capabilities include:
 * Multi-step administrative intake
 * Structured intake review
 * Deterministic professional matching with explainable scores
+* Mocked GraphQL intake submission with runtime response validation
 * Coordinator referral workflow
 * GraphQL integration
 * AI-assisted structured extraction
@@ -223,7 +224,19 @@ MindMesh ranking is a pure, deterministic function (`matchProfessionals`) that c
 * Matching does not use AI, randomness, or fuzzy text. Future AI extraction feeds structured intake fields that humans can edit before matching runs.
 * Scores are administrative only. Gender preference is an optional bonus (base max 100; perfect match with gender may reach 105). UI labels use “strong / possible / limited administrative match,” never clinical certainty.
 * A human coordinator must review suggestions before any referral.
-* Intake is passed to `/matches` via React Router location state in this demo. Refreshing or opening `/matches` directly shows an empty state until a new intake is submitted.
+* After GraphQL submission, ranked matches travel with intake in React Router location state. Refreshing or opening `/matches` directly shows an empty state until a new intake is submitted. The React matching page does not re-run the matching engine.
+
+Mocked GraphQL boundary
+
+MindMesh introduces GraphQL before a real backend so the frontend can practice operations, typed variables, runtime validation, and explicit transport error handling.
+
+* The browser talks to `/graphql` through `graphql-request`.
+* Mock Service Worker intercepts that endpoint in development and in Vitest.
+* The MSW handler reuses the pure `matchProfessionals` engine and returns fictional, deterministic payloads.
+* Every mutation response is validated with Zod before mapping into domain types.
+* Network failures, GraphQL errors, and malformed payloads are distinguished in the API layer and shown as non-technical user messages.
+* Development-only failure scenarios can be triggered with the `x-mindmesh-msw-scenario` header or `?mswScenario=` query parameter.
+* A later phase will replace MSW with a GraphQL Yoga API without changing the React feature shape.
 
 Development workflow
 
@@ -294,14 +307,15 @@ Phase 1 — Frontend foundation
 
 Phase 2 — Domain workflow
 
+* Deterministic matching engine (administrative suggestions)
+* Mocked GraphQL boundary (graphql-request + MSW + Zod)
 * Coordinator dashboard
 * Referral approval
 * Referral status tracking
-* Mocked GraphQL boundary
 
 Phase 3 — GraphQL backend
 
-* GraphQL Yoga API
+* GraphQL Yoga API (replace MSW)
 * Typed queries and mutations
 * Response validation
 * Partial-error handling

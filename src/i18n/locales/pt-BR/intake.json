@@ -82,6 +82,7 @@
     "edit": "Editar",
     "submit": "Enviar triagem",
     "submitting": "Enviando…",
+    "retry": "Tentar novamente",
     "viewMatches": "Ver sugestões de correspondência",
     "startAnother": "Iniciar outra triagem"
   },
@@ -103,6 +104,11 @@
     "submitting": "Enviando sua triagem…"
   },
   "error": {
-    "submission": "Não foi possível enviar a triagem. Tente novamente."
+    "submission": "Não foi possível enviar a triagem. Tente novamente.",
+    "network": "Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.",
+    "server": "O servidor não conseguiu concluir sua triagem. Tente novamente.",
+    "invalidResponse": "O servidor retornou uma resposta inesperada. Tente novamente.",
+    "unexpected": "Algo deu errado ao enviar. Tente novamente.",
+    "retryHint": "Suas respostas ainda estão nesta página. Você pode enviar novamente quando estiver pronto."
   }
 }

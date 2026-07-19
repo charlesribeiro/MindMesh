@@ -2,6 +2,8 @@ import type {
   PreferredPeriod,
   SupportTopic,
 } from '../../../domain/professionals/professional'
+import type { MatchResult } from '../../matching/domain/matchingTypes'
+import type { SubmitIntakeApiErrorKind } from '../../../graphql/errors'
 
 export type { PreferredPeriod, SupportTopic }
 
@@ -43,9 +45,14 @@ export type IntakeSubmissionPayload = {
 export type SubmissionState =
   | { status: 'idle' }
   | { status: 'submitting' }
-  | { status: 'success'; intakeId: string; intake: IntakeSubmissionPayload }
-  | { status: 'error'; message: string }
-
-export type IntakeSubmissionResult = {
-  id: string
-}
+  | {
+      status: 'success'
+      intakeId: string
+      intake: IntakeSubmissionPayload
+      matches: MatchResult[]
+    }
+  | {
+      status: 'error'
+      message: string
+      kind: SubmitIntakeApiErrorKind
+    }
