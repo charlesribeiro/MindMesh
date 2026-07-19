@@ -104,7 +104,15 @@ export function IntakeForm({ submitFn = submitIntake }: IntakeFormProps) {
       <form
         className="intake-form"
         noValidate
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(event) => {
+          if (step < TOTAL_STEPS - 1) {
+            event.preventDefault()
+            void goNext()
+            return
+          }
+
+          void handleSubmit(onSubmit)(event)
+        }}
         aria-busy={isSubmitting}
       >
         <IntakeProgress currentStep={step} />
