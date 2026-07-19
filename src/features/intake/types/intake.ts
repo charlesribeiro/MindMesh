@@ -1,20 +1,18 @@
-export type ServiceModality = 'online' | 'in-person' | 'no-preference'
+import type {
+  PreferredPeriod,
+  SupportTopic,
+} from '../../../domain/professionals/professional'
 
-export type PreferredPeriod = 'morning' | 'afternoon' | 'evening'
+export type { PreferredPeriod, SupportTopic }
+
+/** Intake modality preference, including no preference. */
+export type ServiceModality = 'online' | 'in-person' | 'no-preference'
 
 export type GenderPreference =
   | 'female'
   | 'male'
   | 'non-binary'
   | 'no-preference'
-
-export type SupportTopic =
-  | 'anxiety'
-  | 'relationships'
-  | 'work'
-  | 'grief'
-  | 'self-knowledge'
-  | 'other'
 
 /** Administrative language preference for matching — not clinical. */
 export type PreferredLanguage = 'en' | 'pt-BR' | 'es' | 'no-preference'
@@ -45,7 +43,7 @@ export type IntakeSubmissionPayload = {
 export type SubmissionState =
   | { status: 'idle' }
   | { status: 'submitting' }
-  | { status: 'success'; intakeId: string }
+  | { status: 'success'; intakeId: string; intake: IntakeSubmissionPayload }
   | { status: 'error'; message: string }
 
 export type IntakeSubmissionResult = {

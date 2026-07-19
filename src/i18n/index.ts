@@ -6,11 +6,13 @@ import enCommon from './locales/en/common.json'
 import enNavigation from './locales/en/navigation.json'
 import enPages from './locales/en/pages.json'
 import enIntake from './locales/en/intake.json'
+import enMatching from './locales/en/matching.json'
 
 import ptBRCommon from './locales/pt-BR/common.json'
 import ptBRNavigation from './locales/pt-BR/navigation.json'
 import ptBRPages from './locales/pt-BR/pages.json'
 import ptBRIntake from './locales/pt-BR/intake.json'
+import ptBRMatching from './locales/pt-BR/matching.json'
 
 export const defaultNS = 'common'
 export const supportedLanguages = ['en', 'pt-BR'] as const
@@ -45,19 +47,21 @@ void i18n
         navigation: enNavigation,
         pages: enPages,
         intake: enIntake,
+        matching: enMatching,
       },
       'pt-BR': {
         common: ptBRCommon,
         navigation: ptBRNavigation,
         pages: ptBRPages,
         intake: ptBRIntake,
+        matching: ptBRMatching,
       },
     },
     fallbackLng: 'en',
     supportedLngs: [...supportedLanguages, 'pt'],
     nonExplicitSupportedLngs: true,
     defaultNS,
-    ns: ['common', 'navigation', 'pages', 'intake'],
+    ns: ['common', 'navigation', 'pages', 'intake', 'matching'],
     interpolation: {
       escapeValue: false,
     },

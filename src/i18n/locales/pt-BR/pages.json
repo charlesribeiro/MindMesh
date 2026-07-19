@@ -19,18 +19,21 @@
     "continueToCoordinator": "Continuar para a coordenação",
     "backToIntake": "Voltar à triagem"
   },
+  "matches": {
+    "documentTitle": "MindMesh · Correspondências"
+  },
   "coordinator": {
     "documentTitle": "MindMesh · Coordenação",
     "title": "Painel da coordenação",
     "lede": "A coordenação revisará as sugestões administrativas de correspondência e aprovará ou substituirá os encaminhamentos. A interface de aprovação ainda não foi implementada.",
     "demoNote": "Demonstração — os profissionais abaixo são fictícios. As sugestões não são recomendações clínicas.",
     "sampleProfessionals": "Profissionais de exemplo",
-    "backToReview": "Voltar à revisão",
-    "availability": {
-      "accepting": "aceitando",
-      "waitlist": "lista de espera",
-      "unavailable": "indisponível"
-    }
+    "session": "sessão",
+    "status": {
+      "active": "ativo",
+      "inactive": "inativo"
+    },
+    "backToReview": "Voltar à revisão"
   },
   "notFound": {
     "documentTitle": "MindMesh · Página não encontrada",

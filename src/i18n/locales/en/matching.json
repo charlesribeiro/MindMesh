@@ -1,0 +1,82 @@
+{
+  "page": {
+    "title": "Administrative match suggestions",
+    "description": "These ranked professionals are administrative suggestions based on your intake preferences. A human coordinator should review them before any referral.",
+    "documentTitle": "MindMesh · Matches"
+  },
+  "results": {
+    "announcement": "{{count}} administrative match suggestion(s).",
+    "rank": "Suggestion {{rank}}"
+  },
+  "score": {
+    "label": "Administrative match score",
+    "strong": "Strong administrative match",
+    "possible": "Possible administrative match",
+    "limited": "Limited administrative match",
+    "points": "{{score}} points"
+  },
+  "criteria": {
+    "modality": "Service modality",
+    "period": "Preferred periods",
+    "price": "Session price within budget",
+    "language": "Preferred language",
+    "topic": "Support topic",
+    "gender": "Gender preference",
+    "pointsAwarded": "{{points}} points"
+  },
+  "sections": {
+    "matched": "Matched criteria",
+    "unmatched": "Unmatched criteria",
+    "profile": "Professional profile"
+  },
+  "fields": {
+    "modality": "Modalities",
+    "availability": "Available periods",
+    "price": "Session price",
+    "languages": "Languages",
+    "topics": "Support topics"
+  },
+  "empty": {
+    "title": "No intake data for matching",
+    "description": "Complete an administrative intake first. Refreshing this page or opening it directly clears temporary intake data in this demo.",
+    "startIntake": "Start intake"
+  },
+  "actions": {
+    "startIntake": "Start intake",
+    "backHome": "Return home"
+  },
+  "disclaimer": "These matches are administrative suggestions only. They are not diagnoses, not clinical recommendations, and not a substitute for professional care. A human coordinator should review every result before referral.",
+  "options": {
+    "modality": {
+      "online": "Online",
+      "inPerson": "In person",
+      "noPreference": "No preference"
+    },
+    "period": {
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening"
+    },
+    "language": {
+      "en": "English",
+      "ptBR": "Portuguese (Brazil)",
+      "es": "Spanish",
+      "noPreference": "No preference"
+    },
+    "supportTopic": {
+      "anxiety": "Anxiety and stress",
+      "relationships": "Relationships",
+      "work": "Work or studies",
+      "grief": "Grief and loss",
+      "selfKnowledge": "Self-knowledge",
+      "other": "Other"
+    },
+    "gender": {
+      "female": "Female",
+      "male": "Male",
+      "nonBinary": "Non-binary",
+      "notSpecified": "Not specified",
+      "noPreference": "No preference"
+    }
+  }
+}

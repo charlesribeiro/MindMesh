@@ -19,18 +19,21 @@
     "continueToCoordinator": "Continue to coordinator",
     "backToIntake": "Back to intake"
   },
+  "matches": {
+    "documentTitle": "MindMesh · Matches"
+  },
   "coordinator": {
     "documentTitle": "MindMesh · Coordinator",
     "title": "Coordinator dashboard",
     "lede": "Coordinators will review administrative match suggestions and approve or override referrals. Approval UI is not implemented yet.",
     "demoNote": "Demo placeholder — the professionals below are fictional. Suggestions are not clinical recommendations.",
     "sampleProfessionals": "Sample professionals",
-    "backToReview": "Back to review",
-    "availability": {
-      "accepting": "accepting",
-      "waitlist": "waitlist",
-      "unavailable": "unavailable"
-    }
+    "session": "session",
+    "status": {
+      "active": "active",
+      "inactive": "inactive"
+    },
+    "backToReview": "Back to review"
   },
   "notFound": {
     "documentTitle": "MindMesh · Page not found",

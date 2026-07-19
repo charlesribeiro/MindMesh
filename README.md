@@ -18,7 +18,7 @@ Current and planned capabilities include:
 * English and Brazilian Portuguese localization
 * Multi-step administrative intake
 * Structured intake review
-* Professional matching
+* Deterministic professional matching with explainable scores
 * Coordinator referral workflow
 * GraphQL integration
 * AI-assisted structured extraction
@@ -215,6 +215,16 @@ General principles:
 * External and AI-generated data must be validated.
 * Local component state should not be promoted to global state without a clear need.
 
+Matching architecture
+
+MindMesh ranking is a pure, deterministic function (`matchProfessionals`) that compares a validated intake payload with a fictional professional directory.
+
+* Matching is weighted and explainable: each suggestion includes matched and unmatched criteria with awarded points.
+* Matching does not use AI, randomness, or fuzzy text. Future AI extraction feeds structured intake fields that humans can edit before matching runs.
+* Scores are administrative only. Gender preference is an optional bonus (base max 100; perfect match with gender may reach 105). UI labels use “strong / possible / limited administrative match,” never clinical certainty.
+* A human coordinator must review suggestions before any referral.
+* Intake is passed to `/matches` via React Router location state in this demo. Refreshing or opening `/matches` directly shows an empty state until a new intake is submitted.
+
 Development workflow
 
 MindMesh uses a lightweight GitHub Flow.
@@ -280,10 +290,10 @@ Phase 1 — Frontend foundation
 * Multi-step intake
 * Intake review
 * Fictional professional directory
+* Deterministic matching engine (administrative suggestions)
 
 Phase 2 — Domain workflow
 
-* Deterministic matching engine
 * Coordinator dashboard
 * Referral approval
 * Referral status tracking

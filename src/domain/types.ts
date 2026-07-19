@@ -1,20 +1,3 @@
-/** Administrative specialty tags — not diagnoses. */
-export type Specialty = string
-
-export type Availability = 'accepting' | 'waitlist' | 'unavailable'
-
-export type Professional = {
-  id: string
-  displayName: string
-  credentials: string
-  specialties: Specialty[]
-  modalities: string[]
-  languages: string[]
-  locationLabel: string
-  availability: Availability
-  acceptingNewClients: boolean
-}
-
 export type IntakeStatus = 'draft' | 'submitted' | 'in_review' | 'matched'
 
 /** Client-provided + AI-extracted fields treated as untrusted / editable later. */

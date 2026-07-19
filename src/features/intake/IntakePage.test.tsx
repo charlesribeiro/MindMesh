@@ -1,8 +1,17 @@
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 import i18n from '../../i18n'
-import { IntakePage } from './IntakePage'
+import { IntakePage, type IntakePageProps } from './IntakePage'
+
+function renderIntakePage(props: IntakePageProps = {}) {
+  return render(
+    <MemoryRouter>
+      <IntakePage {...props} />
+    </MemoryRouter>,
+  )
+}
 
 const validDescription =
   'Optional notes about scheduling preferences for administrative matching.'
@@ -47,7 +56,7 @@ async function goToReview(
 
 describe('IntakePage', () => {
   it('renders the intake page in English', () => {
-    render(<IntakePage />)
+    renderIntakePage()
 
     expect(
       screen.getByRole('heading', { name: 'Administrative intake' }),
@@ -59,7 +68,7 @@ describe('IntakePage', () => {
   })
 
   it('renders Brazilian Portuguese strings after language change', async () => {
-    render(<IntakePage />)
+    renderIntakePage()
 
     await i18n.changeLanguage('pt-BR')
 
@@ -74,7 +83,7 @@ describe('IntakePage', () => {
 
   it('blocks progression and shows accessible validation messages', async () => {
     const user = userEvent.setup()
-    render(<IntakePage />)
+    renderIntakePage()
 
     await user.click(screen.getByRole('button', { name: 'Continue' }))
 
@@ -92,7 +101,7 @@ describe('IntakePage', () => {
 
   it('progresses through all steps', async () => {
     const user = userEvent.setup()
-    render(<IntakePage />)
+    renderIntakePage()
 
     await goToReview(user)
 
@@ -104,7 +113,7 @@ describe('IntakePage', () => {
 
   it('preserves values after navigating backward', async () => {
     const user = userEvent.setup()
-    render(<IntakePage />)
+    renderIntakePage()
 
     await fillPreferences(user)
     await user.click(screen.getByRole('button', { name: 'Continue' }))
@@ -122,7 +131,7 @@ describe('IntakePage', () => {
 
   it('preserves form data when the language changes', async () => {
     const user = userEvent.setup()
-    render(<IntakePage />)
+    renderIntakePage()
 
     await fillPreferences(user)
     await i18n.changeLanguage('pt-BR')
@@ -136,7 +145,7 @@ describe('IntakePage', () => {
 
   it('allows editing data from the review step', async () => {
     const user = userEvent.setup()
-    render(<IntakePage />)
+    renderIntakePage()
 
     await goToReview(user)
 
@@ -156,7 +165,7 @@ describe('IntakePage', () => {
   it('requires consent before submission', async () => {
     const user = userEvent.setup()
     const submitFn = vi.fn()
-    render(<IntakePage submitFn={submitFn} />)
+    renderIntakePage({ submitFn })
 
     await goToReview(user)
     await user.click(screen.getByRole('button', { name: 'Submit intake' }))
@@ -177,7 +186,7 @@ describe('IntakePage', () => {
         }),
     )
 
-    render(<IntakePage submitFn={submitFn} />)
+    renderIntakePage({ submitFn })
 
     await goToReview(user)
     await user.click(
@@ -204,7 +213,7 @@ describe('IntakePage', () => {
   it('shows the success state after submission', async () => {
     const user = userEvent.setup()
     const submitFn = vi.fn(async () => ({ id: 'intake-test-123' }))
-    render(<IntakePage submitFn={submitFn} />)
+    renderIntakePage({ submitFn })
 
     await goToReview(user)
     await user.click(

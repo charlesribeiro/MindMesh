@@ -8,6 +8,7 @@ const navItems = [
   { to: '/', labelKey: 'home', end: true },
   { to: '/intake', labelKey: 'intake', end: true },
   { to: '/intake/review', labelKey: 'review', end: true },
+  { to: '/matches', labelKey: 'matches', end: true },
   { to: '/coordinator', labelKey: 'coordinator', end: true },
 ] as const
 
@@ -15,6 +16,7 @@ const documentTitleKeys: Record<string, string> = {
   '/': 'home.documentTitle',
   '/intake': 'intake.documentTitle',
   '/intake/review': 'intakeReview.documentTitle',
+  '/matches': 'matches.documentTitle',
   '/coordinator': 'coordinator.documentTitle',
 }
 
