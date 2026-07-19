@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { intakeFormSchema, preferencesStepSchema } from './schema'
+import {
+  intakeFormSchema,
+  preferencesStepSchema,
+  toSubmissionPayload,
+} from './intakeSchema'
 
 describe('intake schemas', () => {
   it('rejects preferences without a period or price', () => {
@@ -13,22 +17,25 @@ describe('intake schemas', () => {
     if (!result.success) {
       const messages = result.error.issues.map((issue) => issue.message)
       expect(messages).toContain('validation.preferredPeriodsMin')
-      expect(messages).toContain('validation.maxPriceRequired')
+      expect(messages).toContain('validation.invalidPrice')
     }
   })
 
-  it('accepts a complete intake payload', () => {
+  it('accepts a complete intake payload and maps description null', () => {
     const result = intakeFormSchema.safeParse({
       modality: 'in-person',
       preferredPeriods: ['afternoon'],
       maxSessionPrice: '90',
-      reason: 'relationships',
-      description:
-        'Looking for administrative matching around relationship communication support.',
+      supportTopic: 'relationships',
+      description: '   ',
       genderPreference: 'no-preference',
+      preferredLanguage: 'pt-BR',
       consent: true,
     })
 
     expect(result.success).toBe(true)
+    if (result.success) {
+      expect(toSubmissionPayload(result.data).description).toBeNull()
+    }
   })
 })

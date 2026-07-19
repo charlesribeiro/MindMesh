@@ -1,20 +1,27 @@
+import type { RefObject } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { IntakeFormValues } from '../domain/intake'
+import type { IntakeFormValues } from '../types/intake'
 import {
   genderPreferenceLabelKeys,
   modalityLabelKeys,
   periodLabelKeys,
-  reasonLabelKeys,
+  preferredLanguageLabelKeys,
+  supportTopicLabelKeys,
   translateIntakeMessage,
-} from './schema'
+} from '../schemas/intakeSchema'
+import { formatSessionPrice } from '../utils/formatIntake'
 
-type ReviewStepProps = {
+type IntakeReviewStepProps = {
+  headingRef: RefObject<HTMLHeadingElement | null>
   onEditStep: (stepIndex: number) => void
 }
 
-export function ReviewStep({ onEditStep }: ReviewStepProps) {
-  const { t } = useTranslation('intake')
+export function IntakeReviewStep({
+  headingRef,
+  onEditStep,
+}: IntakeReviewStepProps) {
+  const { t, i18n } = useTranslation('intake')
   const {
     register,
     watch,
@@ -22,17 +29,27 @@ export function ReviewStep({ onEditStep }: ReviewStepProps) {
   } = useFormContext<IntakeFormValues>()
 
   const values = watch()
-  const reasonLabel =
-    values.reason === ''
+  const supportTopicLabel =
+    values.supportTopic === ''
       ? t('review.notProvided')
-      : t(reasonLabelKeys[values.reason])
+      : t(supportTopicLabelKeys[values.supportTopic])
+
+  const priceLabel =
+    values.maxSessionPrice === '' || values.maxSessionPrice === undefined
+      ? t('review.notProvided')
+      : formatSessionPrice(Number(values.maxSessionPrice), i18n.language)
 
   return (
     <div className="intake-step">
-      <h2>{t('review.title')}</h2>
+      <h2 ref={headingRef} tabIndex={-1} className="intake-step__heading">
+        {t('review.title')}
+      </h2>
       <p className="intake-step__lede">{t('review.lede')}</p>
 
-      <section className="intake-review-block" aria-labelledby="review-preferences">
+      <section
+        className="intake-review-block"
+        aria-labelledby="review-preferences"
+      >
         <div className="intake-review-block__header">
           <h3 id="review-preferences">{t('steps.preferences')}</h3>
           <button
@@ -45,11 +62,11 @@ export function ReviewStep({ onEditStep }: ReviewStepProps) {
         </div>
         <dl className="intake-review-list">
           <div>
-            <dt>{t('review.sessionFormat')}</dt>
+            <dt>{t('fields.modality')}</dt>
             <dd>{t(modalityLabelKeys[values.modality])}</dd>
           </div>
           <div>
-            <dt>{t('review.preferredPeriods')}</dt>
+            <dt>{t('fields.preferredPeriods')}</dt>
             <dd>
               {values.preferredPeriods.length > 0
                 ? values.preferredPeriods
@@ -59,13 +76,8 @@ export function ReviewStep({ onEditStep }: ReviewStepProps) {
             </dd>
           </div>
           <div>
-            <dt>{t('review.maxPrice')}</dt>
-            <dd>
-              {values.maxSessionPrice === '' ||
-              values.maxSessionPrice === undefined
-                ? t('review.notProvided')
-                : `$${values.maxSessionPrice}`}
-            </dd>
+            <dt>{t('fields.maximumPrice')}</dt>
+            <dd>{priceLabel}</dd>
           </div>
         </dl>
       </section>
@@ -83,20 +95,32 @@ export function ReviewStep({ onEditStep }: ReviewStepProps) {
         </div>
         <dl className="intake-review-list">
           <div>
-            <dt>{t('review.generalReason')}</dt>
-            <dd>{reasonLabel}</dd>
+            <dt>{t('fields.supportTopic')}</dt>
+            <dd>{supportTopicLabel}</dd>
           </div>
           <div>
-            <dt>{t('review.description')}</dt>
+            <dt>{t('fields.description')}</dt>
             <dd className="intake-review-list__multiline">
               {values.description.trim() || t('review.notProvided')}
             </dd>
           </div>
           <div>
-            <dt>{t('review.genderPreference')}</dt>
+            <dt>{t('fields.genderPreference')}</dt>
             <dd>{t(genderPreferenceLabelKeys[values.genderPreference])}</dd>
           </div>
+          <div>
+            <dt>{t('fields.preferredLanguage')}</dt>
+            <dd>{t(preferredLanguageLabelKeys[values.preferredLanguage])}</dd>
+          </div>
         </dl>
+      </section>
+
+      <section
+        className="intake-review-block"
+        aria-labelledby="review-privacy"
+      >
+        <h3 id="review-privacy">{t('review.privacyTitle')}</h3>
+        <p>{t('review.privacyBody')}</p>
       </section>
 
       <fieldset className="intake-fieldset">
@@ -105,14 +129,13 @@ export function ReviewStep({ onEditStep }: ReviewStepProps) {
           <input
             type="checkbox"
             aria-invalid={errors.consent ? true : undefined}
-            aria-describedby={errors.consent ? 'consent-error' : 'consent-hint'}
+            aria-describedby={
+              errors.consent ? 'consent-error' : undefined
+            }
             {...register('consent')}
           />
           <span>{t('review.consentLabel')}</span>
         </label>
-        <p className="intake-hint" id="consent-hint">
-          {t('review.consentHint')}
-        </p>
         {errors.consent ? (
           <p className="intake-error" role="alert" id="consent-error">
             {translateIntakeMessage(t, errors.consent.message)}

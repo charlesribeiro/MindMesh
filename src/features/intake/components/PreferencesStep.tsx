@@ -1,15 +1,20 @@
+import type { RefObject } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { IntakeFormValues } from '../domain/intake'
+import type { IntakeFormValues } from '../types/intake'
 import {
   modalityLabelKeys,
   modalityOptions,
   periodLabelKeys,
   periodOptions,
   translateIntakeMessage,
-} from './schema'
+} from '../schemas/intakeSchema'
 
-export function PreferencesStep() {
+type PreferencesStepProps = {
+  headingRef: RefObject<HTMLHeadingElement | null>
+}
+
+export function PreferencesStep({ headingRef }: PreferencesStepProps) {
   const { t } = useTranslation('intake')
   const {
     register,
@@ -18,12 +23,20 @@ export function PreferencesStep() {
 
   return (
     <div className="intake-step">
-      <h2>{t('preferences.title')}</h2>
+      <h2 ref={headingRef} tabIndex={-1} className="intake-step__heading">
+        {t('steps.preferences')}
+      </h2>
       <p className="intake-step__lede">{t('preferences.lede')}</p>
 
       <fieldset className="intake-fieldset">
-        <legend>{t('preferences.sessionFormat')}</legend>
-        <div className="intake-options">
+        <legend id="modality-legend">{t('fields.modality')}</legend>
+        <div
+          className="intake-options"
+          role="radiogroup"
+          aria-labelledby="modality-legend"
+          aria-invalid={errors.modality ? true : undefined}
+          aria-describedby={errors.modality ? 'modality-error' : undefined}
+        >
           {modalityOptions.map((value) => (
             <label key={value} className="intake-option">
               <input type="radio" value={value} {...register('modality')} />
@@ -39,13 +52,19 @@ export function PreferencesStep() {
       </fieldset>
 
       <fieldset className="intake-fieldset">
-        <legend>{t('preferences.preferredPeriods')}</legend>
+        <legend id="periods-legend">{t('fields.preferredPeriods')}</legend>
         <p className="intake-hint" id="periods-hint">
-          {t('preferences.periodsHint')}
+          {t('fields.preferredPeriodsHint')}
         </p>
         <div
           className="intake-options"
-          aria-describedby="periods-hint"
+          role="group"
+          aria-labelledby="periods-legend"
+          aria-describedby={
+            errors.preferredPeriods
+              ? 'periods-hint periods-error'
+              : 'periods-hint'
+          }
           aria-invalid={errors.preferredPeriods ? true : undefined}
         >
           {periodOptions.map((value) => (
@@ -60,14 +79,14 @@ export function PreferencesStep() {
           ))}
         </div>
         {errors.preferredPeriods ? (
-          <p className="intake-error" role="alert">
+          <p className="intake-error" role="alert" id="periods-error">
             {translateIntakeMessage(t, errors.preferredPeriods.message)}
           </p>
         ) : null}
       </fieldset>
 
       <div className="intake-field">
-        <label htmlFor="maxSessionPrice">{t('preferences.maxPrice')}</label>
+        <label htmlFor="maxSessionPrice">{t('fields.maximumPrice')}</label>
         <input
           id="maxSessionPrice"
           type="number"
@@ -77,12 +96,14 @@ export function PreferencesStep() {
           step={1}
           aria-invalid={errors.maxSessionPrice ? true : undefined}
           aria-describedby={
-            errors.maxSessionPrice ? 'maxSessionPrice-error' : 'maxSessionPrice-hint'
+            errors.maxSessionPrice
+              ? 'maxSessionPrice-hint maxSessionPrice-error'
+              : 'maxSessionPrice-hint'
           }
           {...register('maxSessionPrice')}
         />
         <p className="intake-hint" id="maxSessionPrice-hint">
-          {t('preferences.maxPriceHint')}
+          {t('fields.maximumPriceHint')}
         </p>
         {errors.maxSessionPrice ? (
           <p className="intake-error" role="alert" id="maxSessionPrice-error">

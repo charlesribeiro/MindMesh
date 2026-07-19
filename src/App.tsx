@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { IntakePage } from './features/intake/IntakePage'
 import { AppLayout } from './layouts/AppLayout'
 import { CoordinatorPage } from './pages/CoordinatorPage'
-import { IntakePage } from './pages/IntakePage'
 import { IntakeReviewPage } from './pages/IntakeReviewPage'
 import { LandingPage } from './pages/LandingPage'
 import { NotFoundPage } from './pages/NotFoundPage'
