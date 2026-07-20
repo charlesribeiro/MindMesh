@@ -7,12 +7,14 @@ import enNavigation from './locales/en/navigation.json'
 import enPages from './locales/en/pages.json'
 import enIntake from './locales/en/intake.json'
 import enMatching from './locales/en/matching.json'
+import enAuth from './locales/en/auth.json'
 
 import ptBRCommon from './locales/pt-BR/common.json'
 import ptBRNavigation from './locales/pt-BR/navigation.json'
 import ptBRPages from './locales/pt-BR/pages.json'
 import ptBRIntake from './locales/pt-BR/intake.json'
 import ptBRMatching from './locales/pt-BR/matching.json'
+import ptBRAuth from './locales/pt-BR/auth.json'
 
 export const defaultNS = 'common'
 export const supportedLanguages = ['en', 'pt-BR'] as const
@@ -48,6 +50,7 @@ void i18n
         pages: enPages,
         intake: enIntake,
         matching: enMatching,
+        auth: enAuth,
       },
       'pt-BR': {
         common: ptBRCommon,
@@ -55,13 +58,14 @@ void i18n
         pages: ptBRPages,
         intake: ptBRIntake,
         matching: ptBRMatching,
+        auth: ptBRAuth,
       },
     },
     fallbackLng: 'en',
     supportedLngs: [...supportedLanguages, 'pt'],
     nonExplicitSupportedLngs: true,
     defaultNS,
-    ns: ['common', 'navigation', 'pages', 'intake', 'matching'],
+    ns: ['common', 'navigation', 'pages', 'intake', 'matching', 'auth'],
     interpolation: {
       escapeValue: false,
     },

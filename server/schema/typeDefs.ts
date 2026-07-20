@@ -1,19 +1,42 @@
 /**
- * GraphQL schema aligned with the frontend SubmitIntake operation.
- * Domain values that contain hyphens (e.g. in-person, pt-BR) are Strings;
- * Zod enforces allowed values after GraphQL shape validation.
+ * GraphQL schema: intake contract + authentication operations.
+ * Domain hyphenated values remain Strings; auth roles use GraphQL enums.
  */
 export const typeDefs = /* GraphQL */ `
-  """
-  Arbitrary JSON values used for match criterion intake/professional values.
-  """
   scalar JSON
 
+  enum UserRole {
+    CLIENT
+    ADMIN
+  }
+
+  type AuthUser {
+    id: ID!
+    email: String!
+    displayName: String!
+    role: UserRole!
+  }
+
+  type AuthPayload {
+    user: AuthUser!
+  }
+
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+
+  type AdminOverview {
+    professionalCount: Int!
+    activeProfessionalCount: Int!
+    clientUserCount: Int!
+    adminUserCount: Int!
+  }
+
   type Query {
-    """
-    Lightweight health check for local development.
-    """
     health: String!
+    me: AuthUser
+    adminOverview: AdminOverview!
   }
 
   input SubmitIntakeInput {
@@ -72,6 +95,8 @@ export const typeDefs = /* GraphQL */ `
   }
 
   type Mutation {
+    login(input: LoginInput!): AuthPayload!
+    logout: Boolean!
     submitIntake(input: SubmitIntakeInput!): SubmitIntakePayload!
   }
 `

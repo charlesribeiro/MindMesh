@@ -40,6 +40,7 @@ function buildHeaders(scenario?: MswScenario): HeadersInit | undefined {
 
 export function createGraphQLClient(scenario?: MswScenario): GraphQLClient {
   return new GraphQLClient(resolveGraphQLEndpoint(), {
+    credentials: 'include',
     headers: buildHeaders(scenario),
   })
 }

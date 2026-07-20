@@ -1,15 +1,51 @@
+import { useCookies } from '@whatwg-node/server-plugin-cookies'
 import { createSchema, createYoga, maskError } from 'graphql-yoga'
+import {
+  readAuthTokenFromCookieHeader,
+  type CookieStoreLike,
+} from './auth/auth.cookie'
+import type { GraphQLContext } from './auth/auth.guards'
+import { resolveUserFromToken } from './auth/auth.service'
 import { resolvers } from './schema/resolvers'
 import { typeDefs } from './schema/typeDefs'
 
-/** Vite default origin — keep CORS narrow for local development. */
-export const LOCAL_WEB_ORIGINS = [
+export const GRAPHQL_PORT = 4000
+export const GRAPHQL_ENDPOINT_PATH = '/graphql'
+
+const DEFAULT_FRONTEND_ORIGINS = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
 ] as const
 
-export const GRAPHQL_PORT = 4000
-export const GRAPHQL_ENDPOINT_PATH = '/graphql'
+export function resolveFrontendOrigins(): string[] {
+  const configured = process.env.FRONTEND_ORIGIN?.trim()
+  if (configured && configured.length > 0) {
+    return [configured]
+  }
+  return [...DEFAULT_FRONTEND_ORIGINS]
+}
+
+function isPassThroughErrorCode(code: unknown): boolean {
+  return (
+    code === 'BAD_USER_INPUT' ||
+    code === 'UNAUTHENTICATED' ||
+    code === 'FORBIDDEN' ||
+    code === 'INVALID_CREDENTIALS'
+  )
+}
+
+export async function buildGraphQLContext(
+  request: Request & { cookieStore?: CookieStoreLike },
+): Promise<GraphQLContext> {
+  const token = readAuthTokenFromCookieHeader(request.headers.get('cookie'))
+  const currentUser = await resolveUserFromToken(token)
+
+  return {
+    requestId: crypto.randomUUID(),
+    currentUser,
+    cookieStore: request.cookieStore ?? null,
+  }
+}
 
 export function createMindMeshYoga() {
   const schema = createSchema({
@@ -17,20 +53,25 @@ export function createMindMeshYoga() {
     resolvers,
   })
 
-  return createYoga({
+  return createYoga<GraphQLContext>({
     schema,
     graphqlEndpoint: GRAPHQL_ENDPOINT_PATH,
     graphiql: true,
+    plugins: [useCookies()],
+    context: async ({ request }) =>
+      buildGraphQLContext(
+        request as Request & { cookieStore?: CookieStoreLike },
+      ),
     maskedErrors: {
-      // Never attach originalError/stack to clients, even when NODE_ENV=development.
       isDev: false,
       maskError(error, message, isDev) {
         if (
           typeof error === 'object' &&
           error !== null &&
           'extensions' in error &&
-          (error as { extensions?: { code?: unknown } }).extensions?.code ===
-            'BAD_USER_INPUT' &&
+          isPassThroughErrorCode(
+            (error as { extensions?: { code?: unknown } }).extensions?.code,
+          ) &&
           error instanceof Error
         ) {
           return error
@@ -40,7 +81,7 @@ export function createMindMeshYoga() {
       },
     },
     cors: {
-      origin: [...LOCAL_WEB_ORIGINS],
+      origin: resolveFrontendOrigins(),
       credentials: true,
       methods: ['GET', 'POST', 'OPTIONS'],
       allowedHeaders: ['Content-Type', 'x-mindmesh-msw-scenario'],

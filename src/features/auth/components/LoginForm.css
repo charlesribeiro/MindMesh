@@ -1,0 +1,32 @@
+.login-form {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 24rem;
+}
+
+.login-form__field {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.login-form__field input {
+  font: inherit;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--color-ink) 18%, transparent);
+  border-radius: 0.4rem;
+  background: color-mix(in srgb, white 88%, transparent);
+}
+
+.login-form__error,
+.login-form__field-error {
+  margin: 0;
+  color: #8b1e1e;
+  font-size: 0.95rem;
+}
+
+.login-form__dev-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--color-ink) 65%, transparent);
+  line-height: 1.45;
+}

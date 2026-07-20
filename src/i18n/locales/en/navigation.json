@@ -3,5 +3,7 @@
   "intake": "Intake",
   "review": "Review",
   "matches": "Matches",
-  "coordinator": "Coordinator"
+  "coordinator": "Coordinator",
+  "admin": "Admin",
+  "login": "Sign in"
 }

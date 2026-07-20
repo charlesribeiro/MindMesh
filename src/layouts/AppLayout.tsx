@@ -2,21 +2,36 @@ import { useEffect, useId, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { LanguageSelector } from '../components/LanguageSelector'
+import { CurrentUserMenu } from '../features/auth/components/CurrentUserMenu'
+import { useAuth } from '../features/auth/hooks/useAuth'
 import './AppLayout.css'
 
-const navItems = [
-  { to: '/', labelKey: 'home', end: true },
-  { to: '/intake', labelKey: 'intake', end: true },
-  { to: '/intake/review', labelKey: 'review', end: true },
-  { to: '/matches', labelKey: 'matches', end: true },
-  { to: '/coordinator', labelKey: 'coordinator', end: true },
-] as const
+function useNavItems() {
+  const { user } = useAuth()
+  const base = [
+    { to: '/', labelKey: 'home' as const, end: true },
+    { to: '/intake', labelKey: 'intake' as const, end: true },
+    { to: '/matches', labelKey: 'matches' as const, end: true },
+  ]
+
+  if (user?.role === 'admin') {
+    return [
+      ...base,
+      { to: '/admin', labelKey: 'admin' as const, end: true },
+      { to: '/coordinator', labelKey: 'coordinator' as const, end: true },
+    ]
+  }
+
+  return base
+}
 
 const documentTitleKeys: Record<string, string> = {
   '/': 'home.documentTitle',
+  '/login': 'login.documentTitle',
   '/intake': 'intake.documentTitle',
   '/intake/review': 'intakeReview.documentTitle',
   '/matches': 'matches.documentTitle',
+  '/admin': 'admin.documentTitle',
   '/coordinator': 'coordinator.documentTitle',
 }
 
@@ -24,6 +39,7 @@ function PrimaryNav() {
   const { t } = useTranslation(['common', 'navigation'])
   const [menuOpen, setMenuOpen] = useState(false)
   const navId = useId()
+  const navItems = useNavItems()
 
   useEffect(() => {
     if (!menuOpen) return
@@ -84,7 +100,8 @@ function PrimaryNav() {
 
 export function AppLayout() {
   const location = useLocation()
-  const { t, i18n } = useTranslation(['common', 'pages'])
+  const { t, i18n } = useTranslation(['common', 'pages', 'navigation'])
+  const { status } = useAuth()
 
   useEffect(() => {
     const titleKey =
@@ -117,8 +134,13 @@ export function AppLayout() {
             MindMesh
           </Link>
           <div className="app-header__controls">
+            {status === 'authenticated' ? <CurrentUserMenu /> : null}
+            {status === 'unauthenticated' ? (
+              <Link className="app-nav__link" to="/login">
+                {t('navigation:login')}
+              </Link>
+            ) : null}
             <LanguageSelector />
-            {/* Remount on route change so the mobile menu starts closed. */}
             <PrimaryNav key={location.pathname} />
           </div>
         </div>

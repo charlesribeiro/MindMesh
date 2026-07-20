@@ -3,5 +3,7 @@
   "intake": "Triagem",
   "review": "Revisão",
   "matches": "Correspondências",
-  "coordinator": "Coordenação"
+  "coordinator": "Coordenação",
+  "admin": "Admin",
+  "login": "Entrar"
 }

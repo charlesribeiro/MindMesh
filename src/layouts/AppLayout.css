@@ -48,6 +48,25 @@
   gap: var(--space-sm);
 }
 
+.auth-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.auth-user__label {
+  max-width: 14rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.auth-user__logout {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.85rem;
+}
+
 .language-selector {
   position: relative;
   z-index: 101;

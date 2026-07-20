@@ -6,6 +6,7 @@ import {
   isMswScenario,
   type MswScenario,
 } from '../scenarios'
+import { getMswAuthSession } from './authHandlers'
 import { z } from 'zod'
 
 const submitIntakeInputSchema = z.object({
@@ -46,20 +47,37 @@ function wait(ms: number): Promise<void> {
 }
 
 export const submitIntakeHandler = http.post('*/graphql', async ({ request }) => {
-  const scenario = resolveScenario(request)
-
-  if (scenario === 'network') {
-    return HttpResponse.error()
-  }
-
   let body: GraphQLBody
   try {
-    body = (await request.json()) as GraphQLBody
+    body = (await request.clone().json()) as GraphQLBody
   } catch {
     return HttpResponse.json(
       { errors: [{ message: 'Invalid JSON body' }] },
       { status: 400 },
     )
+  }
+
+  const query = body.query ?? ''
+  if (!query.includes('submitIntake') && !query.includes('SubmitIntake')) {
+    return undefined
+  }
+
+  if (!getMswAuthSession()) {
+    return HttpResponse.json({
+      data: null,
+      errors: [
+        {
+          message: 'Authentication required',
+          extensions: { code: 'UNAUTHENTICATED' },
+        },
+      ],
+    })
+  }
+
+  const scenario = resolveScenario(request)
+
+  if (scenario === 'network') {
+    return HttpResponse.error()
   }
 
   if (scenario === 'graphql') {

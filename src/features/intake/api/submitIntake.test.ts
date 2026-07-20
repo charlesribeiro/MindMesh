@@ -1,9 +1,10 @@
 import { http, HttpResponse } from 'msw'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { resolveGraphQLEndpoint } from '../../../graphql/client'
 import { SubmitIntakeApiError } from '../../../graphql/errors'
 import { mapSubmitIntakeResponse } from '../../../graphql/mappers/mapSubmitIntakeResponse'
 import { submitIntakeResponseSchema } from '../../../graphql/schemas/submitIntakeResponseSchema'
+import { setMswAuthSession } from '../../../mocks/handlers'
 import { server } from '../../../mocks/server'
 import { MSW_SCENARIO_HEADER } from '../../../mocks/scenarios'
 import { submitIntake } from './submitIntake'
@@ -22,6 +23,9 @@ const validValues = {
 } as const
 
 describe('submitIntake API', () => {
+  beforeEach(() => {
+    setMswAuthSession('client')
+  })
   it('submits valid mutation variables and returns mapped domain data', async () => {
     const result = await submitIntake(validValues)
 

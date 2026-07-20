@@ -22,6 +22,12 @@
   "matches": {
     "documentTitle": "MindMesh · Matches"
   },
+  "login": {
+    "documentTitle": "MindMesh · Sign in"
+  },
+  "admin": {
+    "documentTitle": "MindMesh · Admin"
+  },
   "coordinator": {
     "documentTitle": "MindMesh · Coordinator",
     "title": "Coordinator dashboard",

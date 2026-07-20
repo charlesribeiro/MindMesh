@@ -33,7 +33,7 @@ The first version is frontend-first and uses fictional data and mocked APIs.
 
 Do not implement yet:
 
-- authentication
+- OAuth / external identity providers
 - payments
 - real patient records
 - diagnosis
@@ -41,6 +41,9 @@ Do not implement yet:
 - real AI providers
 - database persistence
 - calendar integrations
+
+Demo authentication (JWT HttpOnly cookies + in-memory users) is implemented for
+local development and learning. It is not a complete production identity system.
 
 ## Stack
 

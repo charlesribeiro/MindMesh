@@ -21,6 +21,7 @@ Current and planned capabilities include:
 * Deterministic professional matching with explainable scores
 * Local GraphQL Yoga API with Zod input validation and frontend response validation
 * MSW for frontend tests and explicit failure scenarios
+* Demo JWT cookie authentication with client and admin roles
 * Coordinator referral workflow
 * GraphQL integration
 * AI-assisted structured extraction
@@ -293,7 +294,28 @@ Environment
 
 * `VITE_GRAPHQL_ENDPOINT` — defaults to `http://localhost:4000/graphql`
 * `VITE_USE_MOCK_API=true` — start the browser MSW worker in development
-* CORS allows only `http://localhost:5173` and `http://127.0.0.1:5173` (not unrestricted)
+* `FRONTEND_ORIGIN` — CORS allowlist for credentialed requests (default `http://localhost:5173`)
+* `JWT_SECRET` — required in production; development uses a documented fallback when unset
+* CORS allows only configured frontend origins (not unrestricted) and sends credentials
+
+Authentication (demo)
+
+MindMesh includes a **demo** authentication boundary. It is not a complete production identity system.
+
+* Signed JWT stored in an **HttpOnly** cookie (`SameSite=Lax`, `Secure` in production)
+* Frontend never reads or stores the JWT (`credentials: 'include'` only; no localStorage/sessionStorage tokens)
+* Roles: `client` | `admin` (GraphQL enum `CLIENT` | `ADMIN`)
+* Protected routes: `/intake`, `/matches`, `/admin` (admin-only), `/coordinator` (admin-only)
+* GraphQL: `login`, `logout`, `me`; `submitIntake` requires authentication; `adminOverview` requires admin
+
+Development demo users (fictional):
+
+| Email | Password | Role |
+| --- | --- | --- |
+| `client@mindmesh.local` | `MindMesh-Client-Dev-1!` | client |
+| `admin@mindmesh.local` | `MindMesh-Admin-Dev-1!` | admin |
+
+Passwords are bcrypt-hashed server-side. Invalid login always returns a generic credentials error.
 
 Development workflow
 
@@ -366,6 +388,7 @@ Phase 2 — Domain workflow
 
 * Mocked GraphQL boundary (graphql-request + MSW + Zod)
 * Local GraphQL Yoga API (fictional in-memory data; MSW retained for tests/failures)
+* Demo cookie/JWT authentication and role guards (client / admin)
 * Coordinator dashboard
 * Referral approval
 * Referral status tracking

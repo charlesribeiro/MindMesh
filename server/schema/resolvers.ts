@@ -1,5 +1,20 @@
 import { GraphQLScalarType, Kind, type ValueNode } from 'graphql'
 import { GraphQLError } from 'graphql'
+import {
+  clearAuthCookieOnStore,
+  setAuthCookieOnStore,
+} from '../auth/auth.cookie'
+import { isAuthError } from '../auth/auth.errors'
+import {
+  createInvalidCredentialsError,
+  mapAuthUserToGraphQL,
+  requireAuthenticatedUser,
+  requireRole,
+  type GraphQLContext,
+} from '../auth/auth.guards'
+import { countDemoUsersByRole } from '../auth/auth.repository'
+import { authenticateWithPassword } from '../auth/auth.service'
+import { professionalFixtures } from '../../src/domain/professionals/professionalFixtures'
 import { submitIntakeService } from '../services/submitIntake'
 import { submitIntakeInputSchema } from '../validation/submitIntakeInputSchema'
 
@@ -55,12 +70,66 @@ export const resolvers = {
   JSON: GraphQLJSON,
   Query: {
     health: (): string => 'ok',
+    me: (_parent: unknown, _args: unknown, context: GraphQLContext) => {
+      if (!context.currentUser) {
+        return null
+      }
+      return mapAuthUserToGraphQL(context.currentUser)
+    },
+    adminOverview: (
+      _parent: unknown,
+      _args: unknown,
+      context: GraphQLContext,
+    ) => {
+      requireRole(context, 'admin')
+      return {
+        professionalCount: professionalFixtures.length,
+        activeProfessionalCount: professionalFixtures.filter((p) => p.active)
+          .length,
+        clientUserCount: countDemoUsersByRole('client'),
+        adminUserCount: countDemoUsersByRole('admin'),
+      }
+    },
   },
   Mutation: {
+    login: async (
+      _parent: unknown,
+      args: { input: unknown },
+      context: GraphQLContext,
+    ) => {
+      try {
+        const { user, token } = await authenticateWithPassword(args.input)
+        if (!context.cookieStore) {
+          throw new GraphQLError('Cookie store unavailable', {
+            extensions: { code: 'UNEXPECTED' },
+          })
+        }
+        await setAuthCookieOnStore(context.cookieStore, token)
+        return { user: mapAuthUserToGraphQL(user) }
+      } catch (error) {
+        if (isAuthError(error) && error.code === 'INVALID_CREDENTIALS') {
+          throw createInvalidCredentialsError()
+        }
+        throw error
+      }
+    },
+    logout: async (
+      _parent: unknown,
+      _args: unknown,
+      context: GraphQLContext,
+    ): Promise<boolean> => {
+      if (context.cookieStore) {
+        await clearAuthCookieOnStore(context.cookieStore)
+      }
+      return true
+    },
     submitIntake: (
       _parent: unknown,
       args: { input: unknown },
+      context: GraphQLContext,
     ): ReturnType<typeof submitIntakeService> => {
+      requireAuthenticatedUser(context)
+
       const parsed = submitIntakeInputSchema.safeParse(args.input)
       if (!parsed.success) {
         throw invalidSubmitIntakeInputError()
